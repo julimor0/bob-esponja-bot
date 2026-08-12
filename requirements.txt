@@ -1,0 +1,3 @@
+08.12 4:28 p. m.
+Requirements.txt
+discord.py
