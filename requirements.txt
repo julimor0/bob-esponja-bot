@@ -1,2 +1,4 @@
-discord.py
+discord.py[voice]
 Flask
+yt-dlp
+PyNaCl
