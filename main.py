@@ -334,3 +334,6 @@ async def on_message(message):
         return
 
     await bot.process_commands(message)
+keep_alive()
+TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
+bot.run(TOKEN)
