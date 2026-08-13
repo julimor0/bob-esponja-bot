@@ -1,7 +1,18 @@
-import discord
 import os
-from discord.ext import commands
+from flask import Flask
+from threading import Thread
 
+app = Flask('')
+@app.route('/')
+def home():
+    return "Bob Esponja está vivo!"
+
+def run():
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
+
+Thread(target=run).start()
+import discord
+from discord.ext import commands
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
