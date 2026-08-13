@@ -1,5 +1,3 @@
-08.12 4:26 p. m.
-Main.py
 import discord
 import os
 from discord.ext import commands
