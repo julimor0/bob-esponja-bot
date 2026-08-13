@@ -352,7 +352,7 @@ class CazaMedusasView(discord.ui.View):
             self.stop()
             await interaction.followup.send(f"🏆 ¡{interaction.user.mention} cazó 5 medusas y ganó **5** 🍔! ¡Tienes {data['burgers']} 🍔!")
 
-class class GaryView(discord.ui.View):
+class GaryView(discord.ui.View):
     def __init__(self, user):
         super().__init__(timeout=30)
         self.pos = random.randint(0, 8)
