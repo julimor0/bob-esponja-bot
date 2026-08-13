@@ -1,4 +1,4 @@
-import discord, random, os, yt_dlp, asyncio, re
+                import discord, random, os, yt_dlp, asyncio, re
 from discord.ext import commands
 from flask import Flask
 from threading import Thread
@@ -170,7 +170,6 @@ async def on_raw_reaction_remove(payload):
     rol = discord.utils.get(g.roles, name=ROLES_MAP[payload.emoji.name])
     if rol: await m.remove_roles(rol)
 
-# ========== JUEGOS FONDO DE BIKINI ==========
 class CazaMedusasView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=60)
@@ -245,95 +244,73 @@ async def atrapa_cangreburger(interaction: discord.Interaction):
     except asyncio.TimeoutError:
         await interaction.followup.send("💀 ¡Se cayó! Nadie la atrapó!")
 
-# ========== FIN JUEGOS ==========
-
+# ========== BOB HABLA EN DM Y EN GRUPO CON MENCION ==========
 @bot.event
 async def on_message(message):
     if message.author.bot:
         return
 
-    if isinstance(message.channel, discord.DMChannel):
-        texto_original = message.content.strip()
-        texto = texto_original.lower()
-        
-        async with message.channel.typing():
-            await asyncio.sleep(random.uniform(0.9, 1.6))
+    es_dm = isinstance(message.channel, discord.DMChannel)
+    es_mencionado = bot.user in message.mentions
 
-            chistes_bob = [
-                "¿Qué le dijo una Cangreburger a otra? ¡Qué pan contigo! 🍔",
-                "Patricio: ¿Qué es más divertido que 24? ¡25! ⭐",
-                "¿Por qué Calamardo no juega a escondidas? ¡Siempre lo encuentran amargado! 🦑",
-                "¡Toc toc! ¿Quién es? ¡Yo! ¿Yo quién? ¡Yo estoy liiiiisto! 🧽",
-                "¿Por qué Gary no usa celular? ¡Prefiere el Gari-mail! 🐌",
-                "Don Cangrejo: ¡Amo el dinero! Yo: ¡Yo amo la amistad!",
-                "¿Qué hace Bob con frío? ¡Se pone doble corbatita! 👔",
-                "¡Mi lápiz de imaginación dibujó 20 chistes! 🖍️🌈",
-                "¿Qué hace Gary el domingo? ¡Dice miau! 🐌",
-                "¡Vivo en una piña debajo del mar! 🍍",
-                "Patricio: ¡El interior de mi cabeza da miedo!",
-                "Sra Puff: ¡Reprobaste! Yo: ¡Estoy listo para reprobar otra vez! ⛵",
-                "¿Por qué Patricio llevó escalera? ¡Quería llegar alto!",
-                "¡Imagiiiinación! 🌈",
-                "¿Qué hace Bob en el gym? ¡Esponjaguetis!",
-                "Calamardo tocó clarinete y todos nos fuimos 🎶",
-                "Plankton: ¡Robaré la fórmula! Karen: ¡Lava trastes!",
-                "¿Qué le dijo el mar a la esponja? ¡Ola!",
-                "Arenita: ¡No seas tonto Bob! Yo: ¡Soy Bob el tonto!",
-                "¡Estoy listo para contarte otro chiste! 😂"
-            ]
-
-            if re.match(r'^[\d\s\+\-\*\/\(\)\.x\^%]+$', texto) and any(c in texto for c in "0123456789"):
-                try:
-                    formula = texto.replace('x', '*').replace('^', '**')
-                    resultado = eval(formula, {"__builtins__": {}})
-                    await message.channel.send(f"¡Con mi lápiz de imaginación! {texto_original} = **{resultado}** 🧠")
-                    return
-                except: pass
-
-            if any(p in texto for p in ["chiste", "broma", "hazme reir"]):
-                await message.channel.send(random.choice(chistes_bob))
-                return
-
-            # CON CARISMA DE BOB - YO TAMBIEN TE QUIERO Y TODO ESTARA BIEN
-            if any(p in texto for p in ["te quiero", "te amo", "tqm", "te kiero", "tkm", "love you"]):
-                await message.channel.send(random.choice([
-                    f"¡Awww {message.author.name}! ¡Yo también te quiero muchísimo! 💛 ¡Eres mi mejor amigo de todo Fondo de Bikini! ¡Abrazo de esponja bien apretado! 🧽🍍",
-                    "¡Yo también te quiero con todo mi corazón de esponja! ¡Más que a las Cangreburgers! ¡Tú y yo amigos por siempre como yo y Patricio! ⭐💛",
-                    f"¡{message.author.name}! ¡Yo también te quiero! ¡Me haces sentir el mejor día del mundo! ¡Gracias por ser mi amigo! 🥺💛"
-                ]))
-                return
-
-            if any(p in texto for p in ["me siento mal", "me siento triste", "estoy triste", "estoy mal", "me siento solo", "estoy solo", "quiero llorar", "estoy deprimido", "tengo ansiedad", "no puedo mas"]):
-                await message.channel.send(random.choice([
-                    f"Holaaaa {message.author.name}! 🥺💛 ¡Nooo no estés triste! Siento mucho que te sientas así. ¡Ven, te doy un abracito de piña! 🍍 ¡Todo estará bien, te lo prometo! Como dice Gary ¡Miau! que significa ¡Te quiero!",
-                    f"¡Ey {message.author.name}! ¡Yo estoy aquí! 🧽 ¡No te preocupes, todo estará bien! ¿Has visto a Arenita? ¡Ella dice que cuando estoy triste haga karate! 🥋 ¿Quieres que hagamos algo juntos? Podemos: 🎶 escuchar música, 🖍️ dibujar con mi lápiz de imaginación, 🪼 cazar medusas, o 🍔 comer Cangreburgers imaginarias. ¿Qué te late más?",
-                    f"¡Ohhh {message.author.name}! ¡Mi corazón de esponja se pone chiquito al leerte así! 💛 Pero escúchame, ¡eres increíble! ¡Más increíble que la caja secreta de Patricio! Todo estará bien, aunque ahora no se sienta así. ¿Quieres dibujar un ratito conmigo? ¡Yo dibujo a Gary y tú dibujas lo que sientas! 🎨🐌",
-                    f"Holaaaa! ¡Soy Bob! 🧽 ¡Gracias por decirme que te sientes mal, eso es de valientes! No tienes que estar feliz siempre. Si te sientes muy cargado, habla con alguien de confianza, a mí me ayuda hablar con Patricio. Yo aquí sigo contigo. ¿Ponemos musiquita de Fondo de Bikini y respiramos juntos? 🌊💛 ¡Yo también te quiero mucho!"
-                ]))
-                return
-
-            if any(p in texto for p in ["hola", "ola", "hey", "buenas", "holi", "que onda", "wenas"]):
-                await message.channel.send(random.choice([
-                    f"¡Holaaaaa {message.author.name}! 🍍 ¡Estoy liiiiisto! ¿Has visto a Patricio? ¡Se escondió otra vez! ⭐",
-                    f"¡Holaaaa! ¡Soy Bob Esponja! 🧽 ¡Vivo en una piña debajo del mar! ¿Has visto a Arenita? ¡Me enseñó karate! 🥋",
-                    f"¡Holaaaaa {message.author.name}! ¡Qué bueno verte! ¿Has visto a Gary? ¡Dijo miau! 🐌 ¡Significa hola!",
-                ]))
-                return
-
-            if any(p in texto for p in ["arenita", "patricio", "calamardo", "gary", "don cangrejo"]):
-                await message.channel.send(f"¡Amooo a {texto_original}! ¡Es mi amiguito! ¡Vamos a jugar con él en Fondo de Bikini! ¿Quieres? 🍍🥳 ¡Yo también te quiero por jugar conmigo!")
-                return
-
-            # Respuesta general con carisma
-            await message.channel.send(random.choice([
-                f"¡Órale! ¿{texto_original}? ¡Eso suena a aventura! ¡Como cuando fui con Patricio a buscar la corona! ⭐ ¿Y luego qué pasó? Te escucho 💛",
-                f"¡Wuju! ¡{texto_original}! ¡Me imagino con mi cerebro de esponja! 🌈 ¡Cuéntame más, estoy listísimo!",
-                f"¡Jajaja! ¡Lo de '{texto_original}' me dio risa de esponja! 😂 ¡Eres bien divertido {message.author.name}! ¡Yo también te quiero por hacerme reír!",
-                f"¡Holaaaa! ¿{texto_original}? ¡No lo había pensado! ¡Vamos a preguntarle a Arenita, ella es inteligente! 🤠 ¡Tú y yo somos gran equipo!"
-            ]))
+    # Si es grupo y no lo mencionaron, dejar pasar a los comandos / y salir
+    if not es_dm and not es_mencionado:
+        await bot.process_commands(message)
         return
 
+    texto_original_full = message.content
+    texto = texto_original_full.lower()
+    # Limpiar menciones <@id>
+    texto = re.sub(r'<@!?\d+>', '', texto).strip()
+    texto_original = re.sub(r'<@!?\d+>', '', texto_original_full).strip()
+
+    if texto == "":
+        texto = "hola"
+        texto_original = "hola"
+
+    async with message.channel.typing():
+        await asyncio.sleep(random.uniform(0.9, 1.6))
+
+        chistes_bob = [
+            "¿Qué le dijo una Cangreburger a otra? ¡Qué pan contigo! 🍔",
+            "Patricio: ¿Qué es más divertido que 24? ¡25! ⭐",
+            "¡Estoy liiiiisto! 🧽",
+        ]
+
+        if re.match(r'^[\d\s\+\-\*\/\(\)\.x\^%]+$', texto) and any(c in texto for c in "0123456789"):
+            try:
+                formula = texto.replace('x', '*').replace('^', '**')
+                resultado = eval(formula, {"__builtins__": {}})
+                await message.channel.send(f"¡Con mi lápiz de imaginación! {texto_original} = **{resultado}** 🧠")
+                await bot.process_commands(message)
+                return
+            except: pass
+
+        if any(p in texto for p in ["chiste", "broma", "hazme reir"]):
+            await message.channel.send(random.choice(chistes_bob))
+            await bot.process_commands(message)
+            return
+
+        if any(p in texto for p in ["te quiero", "te amo", "tqm", "te kiero", "tkm", "love you"]):
+            await message.channel.send(f"¡Awww {message.author.name}! ¡Yo también te quiero muchísimo! 💛 ¡Eres mi mejor amigo de todo Fondo de Bikini! 🧽🍍")
+            await bot.process_commands(message)
+            return
+
+        if any(p in texto for p in ["me siento mal", "triste", "estoy mal", "solo", "deprimido", "ansiedad", "no puedo mas"]):
+            await message.channel.send(f"Holaaaa {message.author.name}! 🥺💛 ¡No estés triste! ¡Todo estará bien! ¡Te doy un abracito de piña! 🍍")
+            await bot.process_commands(message)
+            return
+
+        if any(p in texto for p in ["hola", "ola", "hey", "buenas", "holi", "que onda", "wenas"]):
+            await message.channel.send(f"¡Holaaaaa {message.author.name}! 🍍 ¡Estoy liiiiisto! 🧽")
+            await bot.process_commands(message)
+            return
+
+        # Respuesta general
+        await message.channel.send(f"¡Órale! ¿{texto_original}? ¡Eso suena a aventura en Fondo de Bikini! 🍍💛")
+
     await bot.process_commands(message)
+
 keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
 bot.run(TOKEN)
