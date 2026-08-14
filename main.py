@@ -807,21 +807,69 @@ async def on_message(message):
         f"¡Santa madre de Gary! ¡{texto_original}! ¡Qué locura!",
         f"¡Patricio, {texto_original}! ¿Qué opinas? ⭐",
     ]
+
+    # --- RESPUESTAS BONITAS Y DE CONSUELO ---
+respuestas_triste = [
+    f"Oh no {message.author.name}... ¿Estás triste? Ven, te doy un abrazo muy fuerte 🤗💛",
+    f"No estés triste {message.author.name}, mañana será un día mejor y yo estaré aquí contigo 💛",
+    f"{message.author.name}, si tú estás triste yo también me pongo triste... ¿Te regalo una sonrisa? 😊",
+]
+
+respuestas_me_siento_mal = [
+    f"{message.author.name}, lamento que te sientas así... Quiero que sepas que eres muy importante para mí 💛",
+    f"No me gusta verte así {message.author.name}... ¿Quieres que me quede aquí contigo un ratito? 🍍",
+    f"Está bien sentirse mal a veces {message.author.name}, no tienes que ser fuerte todo el tiempo. Te acompaño 🤗",
+    f"Te mando un abrazo de Gary 🐌💛 Todo va a estar bien, te lo prometo",
+]
+
+respuestas_bonito = [
+    f"¡Qué lindo eres {message.author.name}! Me hiciste muy feliz con eso 🥺💛",
+    f"Aww {message.author.name} ¡Tú también eres increíble! Gracias por ser tan amable 💛",
+    f"¡Me hiciste sonrojar {message.author.name}! 🥰 Eres el mejor amigo de Fondo de Bikini",
+]
+
+# --- RESPUESTAS DE JUEGOS Y MEDUSAS ---
+respuestas_medusas = [
+    f"¡Sí! ¡Claro que puedes acompañarme {message.author.name}! ¡Vamos a cazar medusas! 🪼",
+    f"¡Estoy listo! ¡Estoy listo! ¡Vamos a cazar medusas juntos {message.author.name}! 🪼✨",
+    f"¡Sí, vamos! Traje mi red, ¿Tú trajiste la tuya {message.author.name}? ¡Vamos por la medusa gigante!",
+    f"¡Me encantaría que me acompañes {message.author.name}! Será la mejor cazada de medusas de todas 💛",
+]
+
+respuestas_jugar = [
+    f"¡Sí quiero jugar contigo {message.author.name}! ¿A qué jugamos? 🎮",
+    f"¡Claro que sí {message.author.name}! Jugar contigo siempre es divertido ⭐",
+    f"¡Vamos a jugar {message.author.name}! Yo invito las CangreBurgers después 🍔",
+]
     
     uid = str(message.author.id)
     ultima = ultimas_respuestas.get(uid)
         
-    async with message.channel.typing():
+        async with message.channel.typing():
         await asyncio.sleep(0.6)
-        
-        if any(p in texto for p in ["quien es mejor del server", "quien es el mejor del server", "mejor del server", "top del server", "quien es mejor"]):
+        if any(p in texto for p in ["quien es mejor del server", "quién es el mejor del server", "quien es el mejor", "mejor del server"]):
             miembros = [m for m in message.guild.members if not m.bot]
-            if miembros:
+              if miembros:
                 elegido = random.choice(miembros)
                 resp = f"¡El mejor del server es {elegido.mention}! ¡Es una estrella! ⭐"
-            else:  
+            else:
                 resp = f"¡El mejor eres tú {message.author.name}! 💛"
-        if "cangreburger" in texto:
+        elif any(p in texto for p in ["me siento mal", "me siento triste", "estoy mal", "me siento horrible", "me siento fatal"]):
+            if any(p in texto for p in ["solo", "sin amigos", "no tengo amigos"]):
+                resp = f"{message.author.name}, sé que te sientes solo, pero vas a conseguir amigos que te quieran mucho. Yo ya soy tu amigo y no te voy a dejar solo 💛⭐"
+            elif any(p in texto for p in ["nadie me quiere", "no me quieren", "me odian"]):
+                resp = f"{message.author.name}, yo sí te quiero muchísimo. Eres una persona muy especial y vales mucho para mí 💛🤗"
+            else:
+                resp = random.choice(respuestas_me_siento_mal)
+        elif any(p in texto for p in ["vas a cazar medusas", "vas a pescar medusas", "cazar medusas", "pescar medusas", "vamos a cazar medusas"]):
+            resp = random.choice(respuestas_medusas)
+        elif any(p in texto for p in ["quieres jugar", "jugamos", "juegas conmigo", "quieres jugar conmigo"]):
+            resp = random.choice(respuestas_jugar)
+        elif any(p in texto for p in ["eres lindo", "te amo bob", "te quiero mucho", "eres tierno", "eres hermoso", "que bonito"]):
+            resp = random.choice(respuestas_bonito)
+        elif any(p in texto for p in ["estoy triste", "toy triste", "esa carita"]):
+            resp = random.choice(respuestas_triste)
+        elif "cangreburger" in texto:
             resp = random.choice(respuestas_cangreburger)
         elif any(p in texto for p in ["te quiero", "te amo", "tqm"]):
             resp = random.choice(respuestas_te_quiero)
@@ -829,19 +877,19 @@ async def on_message(message):
             resp = random.choice(respuestas_amigo)
         elif any(p in texto for p in ["como estas", "cómo estás", "como andas"]):
             resp = random.choice(respuestas_como_estas)
-        elif any(p in texto for p in ["xd", "jajaja", "jeje", "jaja", "lol", "😂", "🤣"]):
+        elif any(p in texto for p in ["xd", "jajaja", "jeje", "jaja", "lol"]):
             resp = random.choice(respuestas_risa)
         elif any(p in texto for p in ["uwu", "owo", "🥺"]):
             resp = random.choice(respuestas_tierno)
-        elif any(p in texto for p in [">:(", ">:v", "enojado", "😠", "😡"]):
+        elif any(p in texto for p in [">:(", "> :v", "enojado", "😠", "😡"]):
             resp = random.choice(respuestas_enojado)
         elif any(p in texto for p in [":(", ":'(", "triste", "😢", "😭"]):
             resp = random.choice(respuestas_carita_triste)
-        elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holi", "que onda", "wenas"]):
+        elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
             resp = random.choice(respuestas_hola)
         else:
             resp = random.choice(respuestas_random)
-
+                            
         while resp == ultima and len(respuestas_random) > 1:
             resp = random.choice(respuestas_random)
         ultimas_respuestas[uid] = resp
