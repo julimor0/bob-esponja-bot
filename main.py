@@ -381,6 +381,15 @@ async def busca_a_gary(interaction: discord.Interaction):
     view = GaryView(interaction.user)
     await interaction.response.send_message("🐌 ¡Gary se escondió! ¡Hay 9 casitas, toca una! (+10 🍔)", view=view)
 
+@bot.tree.command(name="help", description="Ver TODOS los comandos")
+async def help_cmd(interaction: discord.Interaction):
+    await interaction.response.defer()
+    todos = bot.tree.get_commands()
+    texto = "\n".join([f"`/{c.name}` - {c.description}" for c in sorted(todos, key=lambda x: x.name)])
+    embed = discord.Embed(title="🍔 Comandos - Crustáceo Cascarudo", description=texto[:4000], color=0xFFD700)
+    embed.set_footer(text=f"Total: {len(todos)} comandos | Yo estoy listo!")
+    await interaction.followup.send(embed=embed)
+    
 @bot.tree.command(name="atrapa_cangreburger", description="¡Atrapa la Cangreburger! 🍔")
 async def atrapa_cangreburger(interaction: discord.Interaction):
     await interaction.response.send_message("🍔 ¡La Cangreburger está cayendo! ¡Escribe **ATRAPAR** en el chat en 5 segundos! (+15 🍔)")
@@ -474,27 +483,34 @@ async def rol(interaction, tipo, usuario, verbo, texto_rol, color):
     embed.set_image(url=gif_url)
     embed.set_footer(text="Crustáceo Cascarudo Roleplay 🍔 | Giphy HD")
     await interaction.followup.send(embed=embed)
-
+    
 @bot.tree.command(name="abrazar", description="Abraza a alguien")
-async def abrazar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "abrazar", usuario, "abrazó", "🤗 Se dieron un abrazo bien esponjoso", 0xFFEB3B)
-    
+async def abrazar(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "abrazar", usuario, "abrazó", "🤗 Se dieron un abrazo bien esponjoso", 0xFFEB3B)
+
 @bot.tree.command(name="besar", description="Besa a alguien")
-async def besar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "besar", usuario, "besó", "😘 Muak! Beso de cangreburger", 0xFF69B4)
-    
+async def besar(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "besar", usuario, "besó", "😘 Muak! Beso de cangreburger", 0xFF69B4)
+
 @bot.tree.command(name="pegar", description="Pega a alguien")
-async def pegar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "pegar", usuario, "golpeó", "💥 ¡PUM! Golpe de karate de Arenita", 0xFF0000)
-    
+async def pegar(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "pegar", usuario, "golpeó", "💥 ¡PUM! Golpe de karate de Arenita", 0xFF0000)
+
 @bot.tree.command(name="morder", description="Muerde a alguien")
-async def morder(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "morder", usuario, "mordió", "😼 ¡Auch! Mordida de Gary", 0xFF8C00)
-    
+async def morder(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "morder", usuario, "mordió", "🐱 ¡Auch! Mordida de Gary", 0xFF8C00)
+
 @bot.tree.command(name="acariciar", description="Acaricia a alguien")
-async def acariciar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "acariciar", usuario, "acarició", "🥰 Pat pat en la cabeza", 0xFFB6C1)
-    
+async def acariciar(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "acariciar", usuario, "acarició", "🥰 Pat pat en la cabeza", 0xFFB6C1)
+
 @bot.tree.command(name="lamer", description="Lame a alguien")
-async def lamer(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "lamer", usuario, "lamió", "👅 ¡Que asco! Te lamieron", 0x9B59B6)
-    
+async def lamer(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "lamer", usuario, "lamió", "👅 ¡Que asco! Te lamieron", 0x9B59B6)
+
 @bot.tree.command(name="darcomida", description="Dale cangreburger a alguien")
-async def darcomida(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "comida", usuario, "alimentó", "🍔 Le diste una cangreburger", 0xFFA500) 
+async def darcomida(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "comida", usuario, "alimentó", "🍔 Le diste una cangreburger", 0xFFA500)
 
 @bot.tree.command(name="dormir", description="Duerme")
 async def dormir(interaction: discord.Interaction):
