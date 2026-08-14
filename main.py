@@ -458,24 +458,15 @@ GIFS_LISTA = {
 }
 
 async def get_gif(tipo):
-    return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA.get("abrazar") or list(GIFS_LISTA.values())[0]))
+    return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA["abrazar"]))
+
+contador_data = {}
 
 def rp_count(tipo, id1, id2):
-    archivo = "contador.json"
-    if not os.path.exists(archivo):
-        with open(archivo, "w") as f:
-            json.dump({}, f)
-    with open(archivo, "r") as f:
-        try:
-            data = json.load(f)
-        except:
-            data = {}
     key = f"{tipo}_{id1}_{id2}"
-    data[key] = data.get(key, 0) + 1
-    with open(archivo, "w") as f:
-        json.dump(data, f)
-    return data[key]
-        
+    contador_data[key] = contador_data.get(key, 0) + 1
+    return contador_data[key]
+
 async def rol(interaction, tipo, usuario, verbo, texto_rol, color=0xffa6c9):
     conteo = rp_count(tipo, interaction.user.id, usuario.id)
     await interaction.response.defer()
