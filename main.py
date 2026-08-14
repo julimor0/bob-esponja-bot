@@ -432,30 +432,30 @@ async def kickear(interaction: discord.Interaction, usuario: discord.Member, raz
         
 
 GIFS_LISTA = {
-    "abrazar": ["https://media.tenor.com/U8d5X2v4w6cAAAAC/spongebob-hug-patrick.gif"],
-    "besar": ["https://media.tenor.com/0yB1g5h4j3kAAAAC/spongebob-kiss.gif"],
-    "pegar": ["https://media.tenor.com/6a42QlkVsCEAAAAC/anime-hit.gif"],
+    "abrazar": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "besar": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
+    "pegar": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
     "morder": ["https://media.tenor.com/2uyENRuvV74AAAAd/bite.gif"],
-    "acariciar": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAAd/spongebob-pat.gif"],
-    "pat": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAAd/spongebob-pat.gif"],
-    "lamer": ["https://media.tenor.com/5m6n7o8p9q0AAAAC/spongebob-lick.gif"],
-    "comida": ["https://media.tenor.com/8L2s5Q1c6CEAAAAC/krabby-patty-spongebob.gif"],
-    "dormir": ["https://media.tenor.com/SN9a7PV3p8IAAAAd/spongebob-sleep.gif"],
-    "sonrojar": ["https://media.tenor.com/7n8o9p0q1r2AAAAC/spongebob-blush.gif"],
-    "llorar": ["https://media.tenor.com/8L2s5Q1c6CEAAAAC/spongebob-cry.gif"],
-    "cocinar": ["https://media.tenor.com/8L2s5Q1c6CEAAAAC/spongebob-cooking-krabby-patty.gif"],
-    "feliz": ["https://media.tenor.com/9o0p1q2r3s4AAAAC/spongebob-happy.gif"],
-    "triste": ["https://media.tenor.com/Qb0l2R2V04IAAAAC/spongebob-sad.gif"],
-    "enojado": ["https://media.tenor.com/0p1q2r3s4t5AAAAC/spongebob-angry.gif"],
-    "listo": ["https://media.tenor.com/1b2c3d4e5f6AAAAC/im-ready-spongebob.gif"],
-    "boda": ["https://media.tenor.com/2c3d4e5f6g7AAAAC/spongebob-wedding.gif"],
-    "luna": ["https://media.tenor.com/y9w2p3q4r5s6AAAAC/spongebob-honeymoon.gif"],
-    "karate": ["https://media.tenor.com/z0x1c2v3b4n5AAAAC/spongebob-karate.gif"],
-    "medusas": ["https://media.tenor.com/a1s2d3f4g5h6AAAAC/spongebob-jellyfishing.gif"],
-    "burbujas": ["https://media.tenor.com/b2n3m4k5l6j7AAAAC/spongebob-bubbles.gif"],
-    "imaginacion": ["https://media.tenor.com/c3v4b5n6m7k8AAAAC/spongebob-imagination.gif"],
-    "propuesta": ["https://media.tenor.com/x8v1o1b2c3d4AAAAC/spongebob-proposal.gif"]
-}
+    "acariciar": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAd/spongebob-pat.gif"],
+    "pat": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAd/spongebob-pat.gif"],
+    "lamer": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "comida": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "dormir": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
+    "sonrojar": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
+    "llorar": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "cocinar": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
+    "feliz": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "triste": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
+    "enojado": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
+    "listo": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "boda": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "luna": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
+    "karate": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
+    "medusas": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "burbujas": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
+    "imaginacion": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
+    "propuesta": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"]
+        }
 
 async def get_gif(tipo):
     return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA["abrazar"]))
@@ -472,7 +472,7 @@ async def rol(interaction, tipo, usuario, verbo, texto_rol, color=0xffa6c9):
     await interaction.response.defer()
     gif_url = await get_gif(tipo)
     embed = discord.Embed(color=color)
-    embed.description = f"**{texto_rol}**\n\n{interaction.user.mention} {verbo} a {usuario.mention}\n\n*{conteo} veces*"
+    embed.description = f"**{texto_rol}**\n\n{interaction.user.mention} {verbo} {usuario.mention}\n\n*{conteo} veces*"
     embed.set_image(url=gif_url)
     embed.set_footer(text="Crustáceo Cascarudo Roleplay 🍔")
     await interaction.followup.send(embed=embed)
