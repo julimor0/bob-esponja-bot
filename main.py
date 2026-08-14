@@ -430,7 +430,6 @@ async def kickear(interaction: discord.Interaction, usuario: discord.Member, raz
     except:
         await interaction.response.send_message("❌ No lo pude kickear", ephemeral=True)
         
-        import random, json, os
 
 GIFS_LISTA = {
     "abrazar": ["https://media.tenor.com/U8d5X2v4w6cAAAAC/spongebob-hug-patrick.gif"],
