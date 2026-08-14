@@ -458,26 +458,30 @@ GIFS_LISTA = {
 }
 
 async def get_gif(tipo):
-    return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA["feliz"]))
+    return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA.get("abrazar") or list(GIFS_LISTA.values())[0]))
 
 def rp_count(tipo, id1, id2):
     archivo = "contador.json"
     if not os.path.exists(archivo):
-        with open(archivo, "w") as f: json.dump({}, f)
+        with open(archivo, "w") as f:
+            json.dump({}, f)
     with open(archivo, "r") as f:
-        try: data = json.load(f)
-        except: data = {}
+        try:
+            data = json.load(f)
+        except:
+            data = {}
     key = f"{tipo}_{id1}_{id2}"
     data[key] = data.get(key, 0) + 1
-    with open(archivo, "w") as f: json.dump(data, f)
+    with open(archivo, "w") as f:
+        json.dump(data, f)
     return data[key]
         
-async def rol(interaction, tipo, usuario, verbo, texto_rol, color):
+async def rol(interaction, tipo, usuario, verbo, texto_rol, color=0xffa6c9):
     conteo = rp_count(tipo, interaction.user.id, usuario.id)
     await interaction.response.defer()
     gif_url = await get_gif(tipo)
     embed = discord.Embed(color=color)
-    embed.description = f"**{texto_rol}**\n\n{interaction.user.mention} {verbo} a {usuario.mention} **{conteo} veces**"
+    embed.description = f"**{texto_rol}**\n\n{interaction.user.mention} {verbo} a {usuario.mention}\n\n*{conteo} veces*"
     embed.set_image(url=gif_url)
     embed.set_footer(text="Crustáceo Cascarudo Roleplay 🍔")
     await interaction.followup.send(embed=embed)
