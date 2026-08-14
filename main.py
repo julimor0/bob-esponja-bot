@@ -478,35 +478,35 @@ async def rol(interaction, tipo, usuario, verbo, texto_rol, color=0xffa6c9):
     await interaction.followup.send(embed=embed)
     
 @bot.tree.command(name="abrazar", description="Abraza a alguien")
-async def abrazar(interaction: discord.Interaction, usuario: discord.Member):
+async def abrazar(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "abrazar", usuario, "abrazó", "🤗 Se dieron un abrazo bien esponjoso", 0xFFEB3B)
 
 @bot.tree.command(name="besar", description="Besa a alguien")
-async def besar(interaction: discord.Interaction, usuario: discord.Member):
+async def besar(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "besar", usuario, "besó", "😘 Muak! Beso de cangreburger", 0xFF69B4)
 
 @bot.tree.command(name="pegar", description="Pega a alguien")
-async def pegar(interaction: discord.Interaction, usuario: discord.Member):
+async def pegar(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "pegar", usuario, "golpeó", "💥 ¡PUM! Golpe de karate de Arenita", 0xFF0000)
 
 @bot.tree.command(name="morder", description="Muerde a alguien")
-async def morder(interaction: discord.Interaction, usuario: discord.Member):
+async def morder(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "morder", usuario, "mordió", "🐱 ¡Auch! Mordida de Gary", 0xFF8C00)
 
 @bot.tree.command(name="acariciar", description="Acaricia a alguien")
-async def acariciar(interaction: discord.Interaction, usuario: discord.Member):
+async def acariciar(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "acariciar", usuario, "acarició", "🥰 Pat pat en la cabeza", 0xFFB6C1)
 
 @bot.tree.command(name="pat", description="Hazle pat pat a alguien")
-async def pat(interaction: discord.Interaction, usuario: discord.Member):
+async def pat(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "pat", usuario, "le hizo pat pat a", "🥰 ¡Pat pat esponjoso!", 0xFFB6C1)
 
 @bot.tree.command(name="lamer", description="Lame a alguien")
-async def lamer(interaction: discord.Interaction, usuario: discord.Member):
+async def lamer(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "lamer", usuario, "lamió", "👅 ¡Que asco! Te lamieron", 0x9B59B6)
 
 @bot.tree.command(name="darcomida", description="Dale cangreburger a alguien")
-async def darcomida(interaction: discord.Interaction, usuario: discord.Member):
+async def darcomida(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "comida", usuario, "alimentó", "🍔 Le diste una cangreburger", 0xFFA500)
 
 @bot.tree.command(name="dormir", description="Duerme")
@@ -558,7 +558,7 @@ async def llorar(interaction: discord.Interaction):
     embed.set_image(url=await get_gif("llorar"))
     await interaction.followup.send(embed=embed)
 @bot.tree.command(name="boda", description="Casate con alguien en Fondo de Bikini")
-async def boda(interaction: discord.Interaction, usuario: discord.Member):
+async def boda(interaction: discord.Interaction, usuario: discord.User):
     if usuario.id == interaction.user.id:
         await interaction.response.send_message("😒 No te puedes casar contigo mismo, Bob!", ephemeral=True)
         return
@@ -573,7 +573,7 @@ async def boda(interaction: discord.Interaction, usuario: discord.Member):
     await interaction.followup.send(embed=embed)
 
 @bot.tree.command(name="divorcio", description="Divorciate de alguien")
-async def divorcio(interaction: discord.Interaction, usuario: discord.Member):
+async def divorcio(interaction: discord.Interaction, usuario: discord.User):
     await interaction.response.defer()
     gif_url = await get_gif("triste")
     embed = discord.Embed(color=0x000000, title="💔 DIVORCIO EN FONDO DE BIKINI")
@@ -583,7 +583,7 @@ async def divorcio(interaction: discord.Interaction, usuario: discord.Member):
 
 # --- PACK EXTRA BOB ESPONJA ---
 @bot.tree.command(name="propuesta", description="Proponle matrimonio a alguien")
-async def propuesta(interaction: discord.Interaction, usuario: discord.Member):
+async def propuesta(interaction: discord.Interaction, usuario: discord.User):
     conteo = rp_count("propuesta", interaction.user.id, usuario.id)
     await interaction.response.defer()
     gif_url = await get_gif("boda") # usa query de boda
@@ -593,23 +593,23 @@ async def propuesta(interaction: discord.Interaction, usuario: discord.Member):
     await interaction.followup.send(embed=embed)
 
 @bot.tree.command(name="luna", description="Luna de miel en Fondo de Bikini")
-async def luna(interaction: discord.Interaction, usuario: discord.Member):
+async def luna(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "luna", usuario, "se fue de luna de miel con", "🌙 ¡Luna de miel en la Piña!", 0xFF69B4)
 
 @bot.tree.command(name="karate", description="Pelea de karate con alguien")
-async def karate(interaction: discord.Interaction, usuario: discord.Member):
+async def karate(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "karate", usuario, "hizo karate con", "🥋 ¡HI-YA! Hora de karate", 0xFF0000)
 
 @bot.tree.command(name="medusas", description="Atrapen medusas juntos")
-async def medusas(interaction: discord.Interaction, usuario: discord.Member):
+async def medusas(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "medusas", usuario, "atrapó medusas con", "🪼 ¡A atrapar medusas!", 0x00BFFF)
 
 @bot.tree.command(name="burbujas", description="Sopla burbujas con alguien")
-async def burbujas(interaction: discord.Interaction, usuario: discord.Member):
+async def burbujas(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "burbujas", usuario, "sopló burbujas con", "🫧 Burbujas de jabón bien bonitas", 0x87CEEB)
 
 @bot.tree.command(name="imaginacion", description="Usa la imaginación con alguien")
-async def imaginacion(interaction: discord.Interaction, usuario: discord.Member):
+async def imaginacion(interaction: discord.Interaction, usuario: discord.User):
     await rol(interaction, "imaginacion", usuario, "usó la imaginación con", "🌈 ¡IMAGINACIOOON!", 0x9B59B6)
     
 @bot.tree.command(name="listo", description="Estoy listo!!!")
