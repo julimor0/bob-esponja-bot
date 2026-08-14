@@ -841,6 +841,12 @@ respuestas_jugar = [
     f"¡Claro que sí {message.author.name}! Jugar contigo siempre es divertido ⭐",
     f"¡Vamos a jugar {message.author.name}! Yo invito las CangreBurgers después 🍔",
 ]
+     
+@bot.event
+async def on_message(message):
+    if message.author.bot:
+        return
+    texto = message.content.lower()
     
     uid = str(message.author.id)
     ultima = ultimas_respuestas.get(uid)
@@ -849,7 +855,7 @@ respuestas_jugar = [
         await asyncio.sleep(0.6)
         if any(p in texto for p in ["quien es mejor del server", "quién es el mejor del server", "quien es el mejor", "mejor del server"]):
             miembros = [m for m in message.guild.members if not m.bot]
-              if miembros:
+            if miembros:
                 elegido = random.choice(miembros)
                 resp = f"¡El mejor del server es {elegido.mention}! ¡Es una estrella! ⭐"
             else:
@@ -899,4 +905,3 @@ respuestas_jugar = [
 keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
 bot.run(TOKEN)
-    
