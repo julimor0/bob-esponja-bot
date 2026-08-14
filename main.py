@@ -772,10 +772,6 @@ async def on_message(message):
         f"¡Oh! ¿Quieres una CangreBurger {message.author.name}? Don Cangrejo me dijo que no regale... pero solo una 🤫 🍔",
         f"¡Claro que sí {message.author.name}! Toma tu CangreBurger 🍔✨",
     ]
-    respuestas_triste = [
-        f"¡Oh no {message.author.name}! ¿Estás triste? ¡Ven, te doy un abrazo! 🤗",
-        f"¡No estés triste {message.author.name}! Mañana todo estará mejor 💛",
-    ]
     respuestas_te_quiero = [
         f"¡Yo también te quiero mucho {message.author.name}! ¡Eres mi amigo favorito! 💛",
         f"¡Awww {message.author.name}! ¡Yo también te quiero! 🐌💕",
@@ -807,54 +803,38 @@ async def on_message(message):
         f"¡Santa madre de Gary! ¡{texto_original}! ¡Qué locura!",
         f"¡Patricio, {texto_original}! ¿Qué opinas? ⭐",
     ]
-
-    # --- RESPUESTAS BONITAS Y DE CONSUELO ---
-respuestas_triste = [
-    f"Oh no {message.author.name}... ¿Estás triste? Ven, te doy un abrazo muy fuerte 🤗💛",
-    f"No estés triste {message.author.name}, mañana será un día mejor y yo estaré aquí contigo 💛",
-    f"{message.author.name}, si tú estás triste yo también me pongo triste... ¿Te regalo una sonrisa? 😊",
-]
-
-respuestas_me_siento_mal = [
-    f"{message.author.name}, lamento que te sientas así... Quiero que sepas que eres muy importante para mí 💛",
-    f"No me gusta verte así {message.author.name}... ¿Quieres que me quede aquí contigo un ratito? 🍍",
-    f"Está bien sentirse mal a veces {message.author.name}, no tienes que ser fuerte todo el tiempo. Te acompaño 🤗",
-    f"Te mando un abrazo de Gary 🐌💛 Todo va a estar bien, te lo prometo",
-]
-
-respuestas_bonito = [
-    f"¡Qué lindo eres {message.author.name}! Me hiciste muy feliz con eso 🥺💛",
-    f"Aww {message.author.name} ¡Tú también eres increíble! Gracias por ser tan amable 💛",
-    f"¡Me hiciste sonrojar {message.author.name}! 🥰 Eres el mejor amigo de Fondo de Bikini",
-]
-
-# --- RESPUESTAS DE JUEGOS Y MEDUSAS ---
-respuestas_medusas = [
-    f"¡Sí! ¡Claro que puedes acompañarme {message.author.name}! ¡Vamos a cazar medusas! 🪼",
-    f"¡Estoy listo! ¡Estoy listo! ¡Vamos a cazar medusas juntos {message.author.name}! 🪼✨",
-    f"¡Sí, vamos! Traje mi red, ¿Tú trajiste la tuya {message.author.name}? ¡Vamos por la medusa gigante!",
-    f"¡Me encantaría que me acompañes {message.author.name}! Será la mejor cazada de medusas de todas 💛",
-]
-
-respuestas_jugar = [
-    f"¡Sí quiero jugar contigo {message.author.name}! ¿A qué jugamos? 🎮",
-    f"¡Claro que sí {message.author.name}! Jugar contigo siempre es divertido ⭐",
-    f"¡Vamos a jugar {message.author.name}! Yo invito las CangreBurgers después 🍔",
-]
-     
-@bot.event
-async def on_message(message):
-    if message.author.bot:
-        return
-    texto = message.content.lower()
-    
-    uid = str(message.author.id)
-    ultima = ultimas_respuestas.get(uid)
+    respuestas_triste = [
+        f"Oh no {message.author.name}... ¿Estás triste? Ven, te doy un abrazo muy fuerte 🤗💛",
+        f"No estés triste {message.author.name}, mañana será un día mejor y yo estaré aquí contigo 💛",
+        f"{message.author.name}, si tú estás triste yo también me pongo triste... ¿Te regalo una sonrisa? 😊",
+    ]
+    respuestas_me_siento_mal = [
+        f"{message.author.name}, lamento que te sientas así... Quiero que sepas que eres muy importante para mí 💛",
+        f"No me gusta verte así {message.author.name}... ¿Quieres que me quede aquí contigo un ratito? 🍍",
+        f"Está bien sentirse mal a veces {message.author.name}, no tienes que ser fuerte todo el tiempo. Te acompaño 🤗",
+        f"Te mando un abrazo de Gary 🐌💛 Todo va a estar bien, te lo prometo",
+    ]
+    respuestas_bonito = [
+        f"¡Qué lindo eres {message.author.name}! Me hiciste muy feliz con eso 🥺💛",
+        f"Aww {message.author.name} ¡Tú también eres increíble! Gracias por ser tan amable 💛",
+        f"¡Me hiciste sonrojar {message.author.name}! 🥰 Eres el mejor amigo de Fondo de Bikini",
+    ]
+    respuestas_medusas = [
+        f"¡Sí! ¡Claro que puedes acompañarme {message.author.name}! ¡Vamos a cazar medusas! 🪼",
+        f"¡Estoy listo! ¡Estoy listo! ¡Vamos a cazar medusas juntos {message.author.name}! 🪼✨",
+        f"¡Sí, vamos! Traje mi red, ¿Tú trajiste la tuya {message.author.name}? ¡Vamos por la medusa gigante!",
+        f"¡Me encantaría que me acompañes {message.author.name}! Será la mejor cazada de medusas de todas 💛",
+    ]
+    respuestas_jugar = [
+        f"¡Sí quiero jugar contigo {message.author.name}! ¿A qué jugamos? 🎮",
+        f"¡Claro que sí {message.author.name}! Jugar contigo siempre es divertido ⭐",
+        f"¡Vamos a jugar {message.author.name}! Yo invito las CangreBurgers después 🍔",
+    ]
 
     async with message.channel.typing():
         await asyncio.sleep(0.6)
         if any(p in texto for p in ["quien es mejor del server", "quién es el mejor del server", "quien es el mejor", "mejor del server"]):
-            miembros = [m for m in message.guild.members if not m.bot]
+            miembros = [m for m in message.guild.members if not m.bot] if message.guild else []
             if miembros:
                 elegido = random.choice(miembros)
                 resp = f"¡El mejor del server es {elegido.mention}! ¡Es una estrella! ⭐"
