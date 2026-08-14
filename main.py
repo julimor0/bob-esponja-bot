@@ -430,50 +430,49 @@ async def kickear(interaction: discord.Interaction, usuario: discord.Member, raz
     except:
         await interaction.response.send_message("❌ No lo pude kickear", ephemeral=True)
         
-# --- BOB ESPONJA ROLEPLAY COMPLETO TIPO NEKO [GIPHY API] ---
-GIPHY_KEY = "dc6zaTOxFJmzC" # Key pública que funciona, luego pones la tuya
-FILE_RP = "rp_bob.json"
+        import random, json, os
 
-if not os.path.exists(FILE_RP):
-    with open(FILE_RP, "w") as f: json.dump({}, f)
-
-def rp_count(accion, autor, victima):
-    with open(FILE_RP, "r") as f: data = json.load(f)
-    key = f"{accion}_{autor}_{victima}"
-    data[key] = data.get(key, 0) + 1
-    with open(FILE_RP, "w") as f: json.dump(data, f)
-    return data[key]
-
-# Querys para que parezca Neko pero de Bob Esponja
-QUERYS = {
-    "abrazar": "spongebob hug",
-    "besar": "spongebob kiss",
-    "pegar": "spongebob punch",
-    "morder": "spongebob bite",
-    "acariciar": "spongebob pat",
-    "lamer": "spongebob lick",
-    "dormir": "spongebob sleep",
-    "sonrojar": "spongebob blush",
-    "llorar": "spongebob crying",
-    "feliz": "spongebob happy dance",
-    "triste": "spongebob sad",
-    "enojado": "spongebob angry",
-    "cocinar": "spongebob cooking krabby patty",
-    "comida": "spongebob krabby patty"
+GIFS_LISTA = {
+    "abrazar": ["https://media.tenor.com/U8d5X2v4w6cAAAAC/spongebob-hug-patrick.gif"],
+    "besar": ["https://media.tenor.com/0yB1g5h4j3kAAAAC/spongebob-kiss.gif"],
+    "pegar": ["https://media.tenor.com/6a42QlkVsCEAAAAC/anime-hit.gif"],
+    "morder": ["https://media.tenor.com/2uyENRuvV74AAAAd/bite.gif"],
+    "acariciar": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAAd/spongebob-pat.gif"],
+    "pat": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAAd/spongebob-pat.gif"],
+    "lamer": ["https://media.tenor.com/5m6n7o8p9q0AAAAC/spongebob-lick.gif"],
+    "comida": ["https://media.tenor.com/8L2s5Q1c6CEAAAAC/krabby-patty-spongebob.gif"],
+    "dormir": ["https://media.tenor.com/SN9a7PV3p8IAAAAd/spongebob-sleep.gif"],
+    "sonrojar": ["https://media.tenor.com/7n8o9p0q1r2AAAAC/spongebob-blush.gif"],
+    "llorar": ["https://media.tenor.com/8L2s5Q1c6CEAAAAC/spongebob-cry.gif"],
+    "cocinar": ["https://media.tenor.com/8L2s5Q1c6CEAAAAC/spongebob-cooking-krabby-patty.gif"],
+    "feliz": ["https://media.tenor.com/9o0p1q2r3s4AAAAC/spongebob-happy.gif"],
+    "triste": ["https://media.tenor.com/Qb0l2R2V04IAAAAC/spongebob-sad.gif"],
+    "enojado": ["https://media.tenor.com/0p1q2r3s4t5AAAAC/spongebob-angry.gif"],
+    "listo": ["https://media.tenor.com/1b2c3d4e5f6AAAAC/im-ready-spongebob.gif"],
+    "boda": ["https://media.tenor.com/2c3d4e5f6g7AAAAC/spongebob-wedding.gif"],
+    "luna": ["https://media.tenor.com/y9w2p3q4r5s6AAAAC/spongebob-honeymoon.gif"],
+    "karate": ["https://media.tenor.com/z0x1c2v3b4n5AAAAC/spongebob-karate.gif"],
+    "medusas": ["https://media.tenor.com/a1s2d3f4g5h6AAAAC/spongebob-jellyfishing.gif"],
+    "burbujas": ["https://media.tenor.com/b2n3m4k5l6j7AAAAC/spongebob-bubbles.gif"],
+    "imaginacion": ["https://media.tenor.com/c3v4b5n6m7k8AAAAC/spongebob-imagination.gif"],
+    "propuesta": ["https://media.tenor.com/x8v1o1b2c3d4AAAAC/spongebob-proposal.gif"]
 }
 
 async def get_gif(tipo):
-    query = QUERYS.get(tipo, "spongebob")
-    try:
-        async with aiohttp.ClientSession() as session:
-            url = f"https://api.giphy.com/v1/gifs/search?q={query}&api_key={GIPHY_KEY}&limit=50&rating=g"
-            async with session.get(url) as r:
-                data = await r.json()
-                gif = random.choice(data["data"])
-                return gif["images"]["original"]["url"]
-    except:
-        return "https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif"
+    return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA["feliz"]))
 
+def rp_count(tipo, id1, id2):
+    archivo = "contador.json"
+    if not os.path.exists(archivo):
+        with open(archivo, "w") as f: json.dump({}, f)
+    with open(archivo, "r") as f:
+        try: data = json.load(f)
+        except: data = {}
+    key = f"{tipo}_{id1}_{id2}"
+    data[key] = data.get(key, 0) + 1
+    with open(archivo, "w") as f: json.dump(data, f)
+    return data[key]
+        
 async def rol(interaction, tipo, usuario, verbo, texto_rol, color):
     conteo = rp_count(tipo, interaction.user.id, usuario.id)
     await interaction.response.defer()
@@ -481,7 +480,7 @@ async def rol(interaction, tipo, usuario, verbo, texto_rol, color):
     embed = discord.Embed(color=color)
     embed.description = f"**{texto_rol}**\n\n{interaction.user.mention} {verbo} a {usuario.mention} **{conteo} veces**"
     embed.set_image(url=gif_url)
-    embed.set_footer(text="Crustáceo Cascarudo Roleplay 🍔 | Giphy HD")
+    embed.set_footer(text="Crustáceo Cascarudo Roleplay 🍔")
     await interaction.followup.send(embed=embed)
     
 @bot.tree.command(name="abrazar", description="Abraza a alguien")
@@ -503,6 +502,10 @@ async def morder(interaction: discord.Interaction, usuario: discord.Member):
 @bot.tree.command(name="acariciar", description="Acaricia a alguien")
 async def acariciar(interaction: discord.Interaction, usuario: discord.Member):
     await rol(interaction, "acariciar", usuario, "acarició", "🥰 Pat pat en la cabeza", 0xFFB6C1)
+
+@bot.tree.command(name="pat", description="Hazle pat pat a alguien")
+async def pat(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "pat", usuario, "le hizo pat pat a", "🥰 ¡Pat pat esponjoso!", 0xFFB6C1)
 
 @bot.tree.command(name="lamer", description="Lame a alguien")
 async def lamer(interaction: discord.Interaction, usuario: discord.Member):
@@ -566,23 +569,13 @@ async def boda(interaction: discord.Interaction, usuario: discord.Member):
         await interaction.response.send_message("😒 No te puedes casar contigo mismo, Bob!", ephemeral=True)
         return
     
-    conteo = rp_count("boda", interaction.user.id, usuario.id)
+        conteo = rp_count("boda", interaction.user.id, usuario.id)
     await interaction.response.defer()
-    
-    # Busca gif de boda de Bob Esponja
-    query = "spongebob wedding marriage"
-    try:
-        async with aiohttp.ClientSession() as s:
-            async with s.get(f"https://api.giphy.com/v1/gifs/search?q={query}&api_key={GIPHY_KEY}&limit=50") as r:
-                j = await r.json()
-                gif_url = random.choice(j["data"])["images"]["original"]["url"]
-    except:
-        gif_url = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
-
-    embed = discord.Embed(color=0xFFB6C1, title="💍 ¡BODA EN FONDO DE BIKINI! 💒")
-    embed.description = f"**¡Se han casado!**\n\n{interaction.user.mention} 💖 {usuario.mention}\n\nSe han casado **{conteo} veces**\n\n*¡Que vivan los novios! Que el Crustáceo Cascarudo ponga las cangreburgers* 🍔✨"
+    gif_url = await get_gif("boda")
+    embed = discord.Embed(color=0xFF6BC1, title="💍 ¡BODA EN FONDO DE BIKINI! 💒")
+    embed.description = f"**¡Se han casado!**\n\n{interaction.user.mention} 💖 {usuario.mention}\n¡Se han casado **{conteo} veces**!"
     embed.set_image(url=gif_url)
-    embed.set_footer(text="Oficiado por el mismísimo Bob Esponja 🍍")
+    embed.set_footer(text="Oficiado por el mismísimo Bob Esponja 🧽")
     await interaction.followup.send(embed=embed)
 
 @bot.tree.command(name="divorcio", description="Divorciate de alguien")
@@ -607,24 +600,24 @@ async def propuesta(interaction: discord.Interaction, usuario: discord.Member):
 
 @bot.tree.command(name="luna", description="Luna de miel en Fondo de Bikini")
 async def luna(interaction: discord.Interaction, usuario: discord.Member):
-    await rol(interaction, "luna", usuario, "se fue de luna de miel con", "🍯🌙 ¡Luna de miel en la Piña!", 0xFF69B4, "spongebob patrick honeymoon")
+    await rol(interaction, "luna", usuario, "se fue de luna de miel con", "🌙 ¡Luna de miel en la Piña!", 0xFF69B4)
 
 @bot.tree.command(name="karate", description="Pelea de karate con alguien")
 async def karate(interaction: discord.Interaction, usuario: discord.Member):
-    await rol(interaction, "karate", usuario, "hizo karate con", "🥋 ¡HI-YA! Hora de karate", 0xFF0000, "spongebob karate sandy")
+    await rol(interaction, "karate", usuario, "hizo karate con", "🥋 ¡HI-YA! Hora de karate", 0xFF0000)
 
 @bot.tree.command(name="medusas", description="Atrapen medusas juntos")
 async def medusas(interaction: discord.Interaction, usuario: discord.Member):
-    await rol(interaction, "medusas", usuario, "atrapó medusas con", "🪼 ¡A atrapar medusas!", 0x00BFFF, "spongebob jellyfishing")
+    await rol(interaction, "medusas", usuario, "atrapó medusas con", "🪼 ¡A atrapar medusas!", 0x00BFFF)
 
 @bot.tree.command(name="burbujas", description="Sopla burbujas con alguien")
 async def burbujas(interaction: discord.Interaction, usuario: discord.Member):
-    await rol(interaction, "burbujas", usuario, "sopló burbujas con", "🫧 Burbujas de jabón bien bonitas", 0x87CEEB, "spongebob bubbles")
+    await rol(interaction, "burbujas", usuario, "sopló burbujas con", "🫧 Burbujas de jabón bien bonitas", 0x87CEEB)
 
 @bot.tree.command(name="imaginacion", description="Usa la imaginación con alguien")
 async def imaginacion(interaction: discord.Interaction, usuario: discord.Member):
-    await rol(interaction, "imaginacion", usuario, "usó la imaginación con", "🌈 ¡IMAGINACIOOOON!", 0x9B59B6, "spongebob imagination rainbow")
-
+    await rol(interaction, "imaginacion", usuario, "usó la imaginación con", "🌈 ¡IMAGINACIOOON!", 0x9B59B6)
+    
 @bot.tree.command(name="listo", description="Estoy listo!!!")
 async def listo(interaction: discord.Interaction):
     await interaction.response.defer()
@@ -638,17 +631,6 @@ async def cangreburguer(interaction: discord.Interaction):
     embed = discord.Embed(description=f"🍔 **{interaction.user.display_name} preparó una Cangreburguer bien sabrosa**", color=0xFFA500)
     embed.set_image(url=await get_gif("comida"))
     await interaction.followup.send(embed=embed)
-
-# Actualiza el diccionario de QUERYS para los nuevos
-QUERYS.update({
-    "boda": "spongebob wedding",
-    "luna": "spongebob honeymoon",
-    "karate": "spongebob karate",
-    "medusas": "spongebob jellyfishing",
-    "burbujas": "spongebob bubbles",
-    "imaginacion": "spongebob imagination",
-    "propuesta": "spongebob wedding ring"
-})
 
 ultimo_mensaje_id = set()
 ultimas_respuestas = {}
