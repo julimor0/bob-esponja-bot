@@ -797,11 +797,12 @@ async def on_message(message):
         f"¡{message.author.name}! ¿Estás triste? ¡Yo estoy aquí contigo! 💛",
     ]
     respuestas_random = [
-        f"¡Jajaja {texto_original}! ¡Eso me recuerda a Patricio! 😆",
-        f"¡{texto_original}? ¡Eso dijo Calamardo que nunca! 🤣",
-        f"¡Imagínate! ¡{texto_original} en Fondo de Bikini! ✨",
-        f"¡Santa madre de Gary! ¡{texto_original}! ¡Qué locura!",
-        f"¡Patricio, {texto_original}! ¿Qué opinas? ⭐",
+        f"¡Jajaja {texto_original_full}! ¡Eso me recuerda a Patricio! 😃",
+        f"¡{texto_original_full}? ¡Eso dijo Calamardo que nunca! 😮",
+        f"¡Imagínate! ¡{texto_original_full} en Fondo de Bikini! ✨",
+        f"¡Santa madre de Gary! ¡{texto_original_full}! ¡Qué locura!",
+        f"¡Patricio, {texto_original_full}! ¿Qué opinas? ⭐",
+    ]
     ]
     respuestas_triste = [
         f"Oh no {message.author.name}... ¿Estás triste? Ven, te doy un abrazo muy fuerte 🤗💛",
@@ -876,6 +877,8 @@ async def on_message(message):
         else:
             resp = random.choice(respuestas_random)
 
+                uid = message.author.id
+        ultima = ultimas_respuestas.get(uid)
         while resp == ultima and len(respuestas_random) > 1:
             resp = random.choice(respuestas_random)
         ultimas_respuestas[uid] = resp
