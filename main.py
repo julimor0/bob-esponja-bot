@@ -844,8 +844,8 @@ respuestas_jugar = [
     
     uid = str(message.author.id)
     ultima = ultimas_respuestas.get(uid)
-        
-        async with message.channel.typing():
+
+    async with message.channel.typing():
         await asyncio.sleep(0.6)
         if any(p in texto for p in ["quien es mejor del server", "quién es el mejor del server", "quien es el mejor", "mejor del server"]):
             miembros = [m for m in message.guild.members if not m.bot]
@@ -889,7 +889,7 @@ respuestas_jugar = [
             resp = random.choice(respuestas_hola)
         else:
             resp = random.choice(respuestas_random)
-                            
+
         while resp == ultima and len(respuestas_random) > 1:
             resp = random.choice(respuestas_random)
         ultimas_respuestas[uid] = resp
@@ -899,3 +899,4 @@ respuestas_jugar = [
 keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
 bot.run(TOKEN)
+    
