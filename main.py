@@ -192,18 +192,35 @@ async def canjear(interaction: discord.Interaction, item: str):
         cangre_data[uid] = {"burgers": 0, "nivel": 0, "mascotas": []}
     if "mascotas" not in cangre_data[uid]:
         cangre_data[uid]["mascotas"] = []
+
     datos = cangre_data[uid]
     tienda_item = TIENDA[item]
+    rol_nombre = tienda_item.get("rol")
+
+    # Bloquear si ya lo tiene
+    if tienda_item["nombre"] in datos["mascotas"]:
+        await interaction.response.send_message(f"❌ ¡Ya tienes **{tienda_item['nombre']}**!", ephemeral=True); return
+    if rol_nombre and discord.utils.get(interaction.user.roles, name=rol_nombre):
+        await interaction.response.send_message(f"❌ ¡Ya tienes el rol **{rol_nombre}**!", ephemeral=True); return
+
     if datos["burgers"] < tienda_item["precio"]:
         await interaction.response.send_message(f"❌ Te faltan 🍔. Tienes {datos['burgers']} y cuesta {tienda_item['precio']}", ephemeral=True); return
-    if tienda_item["nombre"] in datos["mascotas"] and tienda_item["tipo"]!="rol":
-        await interaction.response.send_message(f"❌ Ya tienes esto!", ephemeral=True); return
+
     cangre_data[uid]["burgers"] -= tienda_item["precio"]
     if tienda_item["tipo"] in ["mascota", "nitro"]:
         cangre_data[uid]["mascotas"].append(tienda_item["nombre"])
     guardar(cangre_data)
-    rol_nombre = tienda_item.get("rol")
+
     if rol_nombre:
+        # Si compra un color, quitarle los otros colores que tenga
+        if tienda_item["tipo"] == "rol":
+            for otro_nombre in ROLES_MAP.values():
+                if otro_nombre!= rol_nombre:
+                    otro_rol = discord.utils.get(interaction.guild.roles, name=otro_nombre)
+                    if otro_rol and otro_rol in interaction.user.roles:
+                        try: await interaction.user.remove_roles(otro_rol)
+                        except: pass
+
         rol = discord.utils.get(interaction.guild.roles, name=rol_nombre)
         if not rol:
             try:
@@ -213,8 +230,8 @@ async def canjear(interaction: discord.Interaction, item: str):
         if rol:
             try: await interaction.user.add_roles(rol)
             except: pass
-    await interaction.response.send_message(embed=discord.Embed(title="¡CANJE EXITOSO! 🎉", description=f"Canjeaste **{tienda_item['nombre']}** por **{tienda_item['precio']}** 🍔\n¡Te quedan {cangre_data[uid]['burgers']} 🍔!", color=0x00FF00))
 
+    await interaction.response.send_message(embed=discord.Embed(title="¡CANJE EXITOSO! 🎉", description=f"Canjeaste **{tienda_item['nombre']}** por **{tienda_item['precio']}** 🍔\n¡Te quedan {cangre_data[uid]['burgers']} 🍔!", color=0x00FF00))
 @bot.tree.command(name="dar_burgers", description="Dale CangreBurgers a alguien (Solo Gerentes) 🍔")
 async def dar_burgers(interaction: discord.Interaction, usuario: discord.Member, cantidad: int):
     tiene_owner = discord.utils.get(interaction.user.roles, name=ROL_OWNER)
@@ -324,17 +341,35 @@ async def roles(interaction: discord.Interaction):
 
 @bot.event
 async def on_raw_reaction_add(payload):
-    if not payload.member or payload.member.bot or payload.emoji.name not in ROLES_MAP: return
-    g = bot.get_guild(payload.guild_id)
-    rol = discord.utils.get(g.roles, name=ROLES_MAP[payload.emoji.name])
-    if rol: await payload.member.add_roles(rol)
+    if payload.emoji.name not in ROLES_MAP: return
+    guild = bot.get_guild(payload.guild_id)
+    if not guild: return
+    member = guild.get_member(payload.user_id)
+    if not member or member.bot: return
+
+    tiene_color = False
+    for nombre_rol in ROLES_MAP.values():
+        if discord.utils.get(member.roles, name=nombre_rol):
+            tiene_color = True
+            break
+
+    if tiene_color:
+        try:
+            channel = guild.get_channel(payload.channel_id)
+            msg = await channel.fetch_message(payload.message_id)
+            await msg.remove_reaction(payload.emoji, member)
+        except: pass
+        return
+
+    rol_nombre = ROLES_MAP[payload.emoji.name]
+    rol = discord.utils.get(guild.roles, name=rol_nombre)
+    if rol:
+        try: await member.add_roles(rol)
+        except: pass
+
 @bot.event
 async def on_raw_reaction_remove(payload):
-    g = bot.get_guild(payload.guild_id)
-    m = g.get_member(payload.user_id)
-    if not m or m.bot or payload.emoji.name not in ROLES_MAP: return
-    rol = discord.utils.get(g.roles, name=ROLES_MAP[payload.emoji.name])
-    if rol: await m.remove_roles(rol)
+    return
 
 class CazaMedusasView(discord.ui.View):
     def __init__(self, user):
