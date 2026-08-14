@@ -392,6 +392,248 @@ async def atrapa_cangreburger(interaction: discord.Interaction):
     except asyncio.TimeoutError:
         await interaction.followup.send("💀 ¡Se cayó! Nadie la atrapó!")
 
+@bot.tree.command(name="banear", description="Banea a un usuario (solo gerentes)")
+async def banear(interaction: discord.Interaction, usuario: discord.Member, razon: str = "Sin razon"):
+    rol_gerente = discord.utils.get(interaction.user.roles, name="gerentes del Crustáceo")
+    if not rol_gerente and not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("❌ Solo los gerentes del Crustáceo pueden banear", ephemeral=True)
+        return
+
+    if usuario.top_role >= interaction.guild.me.top_role:
+        await interaction.response.send_message("❌ No lo puedo banear, tiene rol mas alto que yo", ephemeral=True)
+        return
+
+    try:
+        await usuario.ban(reason=f"{razon} | Por: {interaction.user.name}")
+        await interaction.response.send_message(f"🔨 **{usuario.name}** fue baneado por {interaction.user.mention}\nRazón: {razon}")
+    except:
+        await interaction.response.send_message("❌ No pude banearlo", ephemeral=True)
+
+@bot.tree.command(name="kickear", description="Expulsa a un usuario (solo gerentes)")
+async def kickear(interaction: discord.Interaction, usuario: discord.Member, razon: str = "Sin razon"):
+    rol_gerente = discord.utils.get(interaction.user.roles, name="gerentes del Crustáceo")
+    if not rol_gerente and not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("❌ Solo los gerentes del Crustáceo pueden kickear", ephemeral=True)
+        return
+    try:
+        await usuario.kick(reason=razon)
+        await interaction.response.send_message(f"👢 {usuario.mention} fue expulsado. Razón: {razon}")
+    except:
+        await interaction.response.send_message("❌ No lo pude kickear", ephemeral=True)
+        
+# --- BOB ESPONJA ROLEPLAY COMPLETO TIPO NEKO [GIPHY API] ---
+GIPHY_KEY = "dc6zaTOxFJmzC" # Key pública que funciona, luego pones la tuya
+FILE_RP = "rp_bob.json"
+
+if not os.path.exists(FILE_RP):
+    with open(FILE_RP, "w") as f: json.dump({}, f)
+
+def rp_count(accion, autor, victima):
+    with open(FILE_RP, "r") as f: data = json.load(f)
+    key = f"{accion}_{autor}_{victima}"
+    data[key] = data.get(key, 0) + 1
+    with open(FILE_RP, "w") as f: json.dump(data, f)
+    return data[key]
+
+# Querys para que parezca Neko pero de Bob Esponja
+QUERYS = {
+    "abrazar": "spongebob hug",
+    "besar": "spongebob kiss",
+    "pegar": "spongebob punch",
+    "morder": "spongebob bite",
+    "acariciar": "spongebob pat",
+    "lamer": "spongebob lick",
+    "dormir": "spongebob sleep",
+    "sonrojar": "spongebob blush",
+    "llorar": "spongebob crying",
+    "feliz": "spongebob happy dance",
+    "triste": "spongebob sad",
+    "enojado": "spongebob angry",
+    "cocinar": "spongebob cooking krabby patty",
+    "comida": "spongebob krabby patty"
+}
+
+async def get_gif(tipo):
+    query = QUERYS.get(tipo, "spongebob")
+    try:
+        async with aiohttp.ClientSession() as session:
+            url = f"https://api.giphy.com/v1/gifs/search?q={query}&api_key={GIPHY_KEY}&limit=50&rating=g"
+            async with session.get(url) as r:
+                data = await r.json()
+                gif = random.choice(data["data"])
+                return gif["images"]["original"]["url"]
+    except:
+        return "https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif"
+
+async def rol(interaction, tipo, usuario, verbo, texto_rol, color):
+    conteo = rp_count(tipo, interaction.user.id, usuario.id)
+    await interaction.response.defer()
+    gif_url = await get_gif(tipo)
+    embed = discord.Embed(color=color)
+    embed.description = f"**{texto_rol}**\n\n{interaction.user.mention} {verbo} a {usuario.mention} **{conteo} veces**"
+    embed.set_image(url=gif_url)
+    embed.set_footer(text="Crustáceo Cascarudo Roleplay 🍔 | Giphy HD")
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="abrazar", description="Abraza a alguien")
+async def abrazar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "abrazar", usuario, "abrazó", "🤗 Se dieron un abrazo bien esponjoso", 0xFFEB3B)
+    
+@bot.tree.command(name="besar", description="Besa a alguien")
+async def besar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "besar", usuario, "besó", "😘 Muak! Beso de cangreburger", 0xFF69B4)
+    
+@bot.tree.command(name="pegar", description="Pega a alguien")
+async def pegar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "pegar", usuario, "golpeó", "💥 ¡PUM! Golpe de karate de Arenita", 0xFF0000)
+    
+@bot.tree.command(name="morder", description="Muerde a alguien")
+async def morder(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "morder", usuario, "mordió", "😼 ¡Auch! Mordida de Gary", 0xFF8C00)
+    
+@bot.tree.command(name="acariciar", description="Acaricia a alguien")
+async def acariciar(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "acariciar", usuario, "acarició", "🥰 Pat pat en la cabeza", 0xFFB6C1)
+    
+@bot.tree.command(name="lamer", description="Lame a alguien")
+async def lamer(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "lamer", usuario, "lamió", "👅 ¡Que asco! Te lamieron", 0x9B59B6)
+    
+@bot.tree.command(name="darcomida", description="Dale cangreburger a alguien")
+async def darcomida(interaction: discord.Interaction, usuario: discord.Member): await rol(interaction, "comida", usuario, "alimentó", "🍔 Le diste una cangreburger", 0xFFA500) 
+
+@bot.tree.command(name="dormir", description="Duerme")
+async def dormir(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"😴 **{interaction.user.display_name} se fue a dormir a su piña**", color=0x3498db)
+    embed.set_image(url=await get_gif("dormir"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="sonrojar", description="Te sonrojas")
+async def sonrojar(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"😳 **{interaction.user.display_name} se sonrojó**", color=0xFF69B4)
+    embed.set_image(url=await get_gif("sonrojar"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="cocinar", description="Cocina")
+async def cocinar(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"🍳 **{interaction.user.display_name} está cocinando en el Crustáceo**", color=0xFFA500)
+    embed.set_image(url=await get_gif("cocinar"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="feliz", description="Estas feliz")
+async def feliz(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"😁 **{interaction.user.display_name} está feliz**", color=0xFFEB3B)
+    embed.set_image(url=await get_gif("feliz"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="triste", description="Estas triste")
+async def triste(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"😔 **{interaction.user.display_name} está triste**", color=0x3498db)
+    embed.set_image(url=await get_gif("triste"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="enojado", description="Estas enojado")
+async def enojado(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"😡 **{interaction.user.display_name} está enojado**", color=0xFF0000)
+    embed.set_image(url=await get_gif("enojado"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="llorar", description="Estas llorando")
+async def llorar(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"😭 **{interaction.user.display_name} está llorando**", color=0x3498db)
+    embed.set_image(url=await get_gif("llorar"))
+    await interaction.followup.send(embed=embed)
+@bot.tree.command(name="boda", description="Casate con alguien en Fondo de Bikini")
+async def boda(interaction: discord.Interaction, usuario: discord.Member):
+    if usuario.id == interaction.user.id:
+        await interaction.response.send_message("😒 No te puedes casar contigo mismo, Bob!", ephemeral=True)
+        return
+    
+    conteo = rp_count("boda", interaction.user.id, usuario.id)
+    await interaction.response.defer()
+    
+    # Busca gif de boda de Bob Esponja
+    query = "spongebob wedding marriage"
+    try:
+        async with aiohttp.ClientSession() as s:
+            async with s.get(f"https://api.giphy.com/v1/gifs/search?q={query}&api_key={GIPHY_KEY}&limit=50") as r:
+                j = await r.json()
+                gif_url = random.choice(j["data"])["images"]["original"]["url"]
+    except:
+        gif_url = "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+
+    embed = discord.Embed(color=0xFFB6C1, title="💍 ¡BODA EN FONDO DE BIKINI! 💒")
+    embed.description = f"**¡Se han casado!**\n\n{interaction.user.mention} 💖 {usuario.mention}\n\nSe han casado **{conteo} veces**\n\n*¡Que vivan los novios! Que el Crustáceo Cascarudo ponga las cangreburgers* 🍔✨"
+    embed.set_image(url=gif_url)
+    embed.set_footer(text="Oficiado por el mismísimo Bob Esponja 🍍")
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="divorcio", description="Divorciate de alguien")
+async def divorcio(interaction: discord.Interaction, usuario: discord.Member):
+    await interaction.response.defer()
+    gif_url = await get_gif("triste")
+    embed = discord.Embed(color=0x000000, title="💔 DIVORCIO EN FONDO DE BIKINI")
+    embed.description = f"😭 {interaction.user.mention} se divorció de {usuario.mention}\n\n*Don Cangrejo les va a cobrar los papeles*"
+    embed.set_image(url=gif_url)
+    await interaction.followup.send(embed=embed)
+
+# --- PACK EXTRA BOB ESPONJA ---
+@bot.tree.command(name="propuesta", description="Proponle matrimonio a alguien")
+async def propuesta(interaction: discord.Interaction, usuario: discord.Member):
+    conteo = rp_count("propuesta", interaction.user.id, usuario.id)
+    await interaction.response.defer()
+    gif_url = await get_gif("boda") # usa query de boda
+    embed = discord.Embed(color=0xFFD700, title="💍 ¡PROPUESTA DE MATRIMONIO!")
+    embed.description = f"**¡OMG!**\n\n{interaction.user.mention} le propuso matrimonio a {usuario.mention} **{conteo} veces**\n\n*¿Aceptas? Di que sí con /boda*"
+    embed.set_image(url=gif_url)
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="luna", description="Luna de miel en Fondo de Bikini")
+async def luna(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "luna", usuario, "se fue de luna de miel con", "🍯🌙 ¡Luna de miel en la Piña!", 0xFF69B4, "spongebob patrick honeymoon")
+
+@bot.tree.command(name="karate", description="Pelea de karate con alguien")
+async def karate(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "karate", usuario, "hizo karate con", "🥋 ¡HI-YA! Hora de karate", 0xFF0000, "spongebob karate sandy")
+
+@bot.tree.command(name="medusas", description="Atrapen medusas juntos")
+async def medusas(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "medusas", usuario, "atrapó medusas con", "🪼 ¡A atrapar medusas!", 0x00BFFF, "spongebob jellyfishing")
+
+@bot.tree.command(name="burbujas", description="Sopla burbujas con alguien")
+async def burbujas(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "burbujas", usuario, "sopló burbujas con", "🫧 Burbujas de jabón bien bonitas", 0x87CEEB, "spongebob bubbles")
+
+@bot.tree.command(name="imaginacion", description="Usa la imaginación con alguien")
+async def imaginacion(interaction: discord.Interaction, usuario: discord.Member):
+    await rol(interaction, "imaginacion", usuario, "usó la imaginación con", "🌈 ¡IMAGINACIOOOON!", 0x9B59B6, "spongebob imagination rainbow")
+
+@bot.tree.command(name="listo", description="Estoy listo!!!")
+async def listo(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"**¡ESTOY LISTO! ¡ESTOY LISTO!** - {interaction.user.mention}", color=0xFFEB3B)
+    embed.set_image(url=await get_gif("feliz"))
+    await interaction.followup.send(embed=embed)
+
+@bot.tree.command(name="cangreburguer", description="Cocina una cangreburguer")
+async def cangreburguer(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(description=f"🍔 **{interaction.user.display_name} preparó una Cangreburguer bien sabrosa**", color=0xFFA500)
+    embed.set_image(url=await get_gif("comida"))
+    await interaction.followup.send(embed=embed)
+
+# Actualiza el diccionario de QUERYS para los nuevos
+QUERYS.update({
+    "boda": "spongebob wedding",
+    "luna": "spongebob honeymoon",
+    "karate": "spongebob karate",
+    "medusas": "spongebob jellyfishing",
+    "burbujas": "spongebob bubbles",
+    "imaginacion": "spongebob imagination",
+    "propuesta": "spongebob wedding ring"
+})
+
 ultimo_mensaje_id = set()
 ultimas_respuestas = {}
 
@@ -425,43 +667,97 @@ async def on_message(message):
     texto_original = re.sub(r'<@!?\d+>', '', texto_original_full).strip()
     if texto == "": texto = "hola"; texto_original = "hola"
 
+        # --- TODAS LAS RESPUESTAS ---
     respuestas_hola = [
-        f"¡Holaaaaa {message.author.name}! 🍍 ¡Estoy liiiiisto! 🧽",
-        f"¡Hola {message.author.name}! ¿Listo para una Cangreburger? 🍔",
-        f"¡Olaaa! Soy Bob Esponja 🤩 ¿Qué hacemos hoy?",
-        f"¡Holaaaaa! 🧽💛 ¿Jugamos /caza_medusas?",
+        f"¡Hola soy Bob Esponja! ¿Has visto a Gary? Se escondió otra vez 🐌 ¡Hola {message.author.name}!",
+        f"¡Hola {message.author.name}! ¡Soy Bob Esponja! ¿Quieres ir a cazar medusas?",
+        f"¡Hola! ¡Soy Bob Esponja! Vivo en una piña debajo del mar 🍍 ¿Y tú cómo estás {message.author.name}?",
+        f"¡Hola {message.author.name}! ¡Estoy listo! ¡Estoy listo! ¿Qué vamos a hacer? 🧽",
+    ]
+    respuestas_como_estas = [
+        f"¡Hola {message.author.name}! ¿Cómo estás? ¡Yo estoy listo, listo, listo!",
+        f"¡Yo estoy muy feliz {message.author.name}! ¿Y tú cómo estás?",
+        f"¡Estoy muy bien {message.author.name}! ¿Y tú qué tal?",
+    ]
+    respuestas_cangreburger = [
+        f"¡Oh! ¿Quieres una CangreBurger {message.author.name}? Don Cangrejo me dijo que no regale... pero solo una 🤫 🍔",
+        f"¡Claro que sí {message.author.name}! Toma tu CangreBurger 🍔✨",
+    ]
+    respuestas_triste = [
+        f"¡Oh no {message.author.name}! ¿Estás triste? ¡Ven, te doy un abrazo! 🤗",
+        f"¡No estés triste {message.author.name}! Mañana todo estará mejor 💛",
+    ]
+    respuestas_te_quiero = [
+        f"¡Yo también te quiero mucho {message.author.name}! ¡Eres mi amigo favorito! 💛",
+        f"¡Awww {message.author.name}! ¡Yo también te quiero! 🐌💕",
+    ]
+    respuestas_amigo = [
+        f"¡Claro que eres mi amigo {message.author.name}! ¡Vamos a cazar medusas! 👯‍♂️",
+        f"¡Por supuesto que somos amigos {message.author.name}! ¡Amigos por siempre!",
+    ]
+    respuestas_risa = [
+        f"¡Jajajajajajaja! {message.author.name} ¡Eso me dio mucha risa! 😂",
+        f"¡Hahahahahaha! ¡Eres muy gracioso {message.author.name}! 🤣",
+    ]
+    respuestas_tierno = [
+        f"¡Awww uwu! ¡Qué tierno {message.author.name}! ¡Me hiciste sonrojar! 🥺💛",
+        f"¡Uwu! ¡Eso fue muy tierno {message.author.name}!",
+    ]
+    respuestas_enojado = [
+        f"¡Oye {message.author.name}! ¡No te enojes! ¡Vamos a hacer burbujas para calmarnos! 🫧",
+        f"¡No estés enojado {message.author.name}! ¡No queremos ser como Calamardo cuando se enoja! 😠",
+    ]
+    respuestas_carita_triste = [
+        f"¡Oh no {message.author.name}! ¿Por qué esa carita? ¡Te doy un abrazo! 🤗",
+        f"¡{message.author.name}! ¿Estás triste? ¡Yo estoy aquí contigo! 💛",
     ]
     respuestas_random = [
-        f"¡Jajaja {texto_original}! Eso me recuerda a Patricio 😂",
-        f"¿{texto_original}? ¡Eso dijo Calamardo que nunca! 🦑",
-        f"¡Imaginate! {texto_original} en Fondo de Bikini 🍍",
-        f"¡Santa madre de Gary! 🐌 ¿{texto_original}? ¡Qué locura!",
-        f"¡Estoy listo para {texto_original}! 🧽",
-        f"¡Krusty Krab pizza es la pizza para ti! 🍕 ¿{texto_original} no?",
-        f"¿{texto_original}? ¡Mejor vamos por una Cangreburger! 🍔",
+        f"¡Jajaja {texto_original}! ¡Eso me recuerda a Patricio! 😆",
+        f"¡{texto_original}? ¡Eso dijo Calamardo que nunca! 🤣",
+        f"¡Imagínate! ¡{texto_original} en Fondo de Bikini! ✨",
+        f"¡Santa madre de Gary! ¡{texto_original}! ¡Qué locura!",
         f"¡Patricio, {texto_original}! ¿Qué opinas? ⭐",
-        f"¡Eso suena a aventura en el Balde de Carnada! 🪣",
-        f"¡Ohhh! ¿{texto_original}? ¡Le diré a Don Cangrejo! 🦀",
     ]
-
+    
     uid = str(message.author.id)
     ultima = ultimas_respuestas.get(uid)
-
+        
     async with message.channel.typing():
         await asyncio.sleep(0.6)
-        if any(p in texto for p in ["hola", "ola", "hey", "buenas", "holi", "que onda", "wenas"]):
+        
+        if any(p in texto for p in ["quien es mejor del server", "quien es el mejor del server", "mejor del server", "top del server", "quien es mejor"]):
+            miembros = [m for m in message.guild.members if not m.bot]
+            if miembros:
+                elegido = random.choice(miembros)
+                resp = f"¡El mejor del server es {elegido.mention}! ¡Es una estrella! ⭐"
+            else:  
+                resp = f"¡El mejor eres tú {message.author.name}! 💛"
+        if "cangreburger" in texto:
+            resp = random.choice(respuestas_cangreburger)
+        elif any(p in texto for p in ["te quiero", "te amo", "tqm"]):
+            resp = random.choice(respuestas_te_quiero)
+        elif any(p in texto for p in ["eres mi amigo", "somos amigos"]):
+            resp = random.choice(respuestas_amigo)
+        elif any(p in texto for p in ["como estas", "cómo estás", "como andas"]):
+            resp = random.choice(respuestas_como_estas)
+        elif any(p in texto for p in ["xd", "jajaja", "jeje", "jaja", "lol", "😂", "🤣"]):
+            resp = random.choice(respuestas_risa)
+        elif any(p in texto for p in ["uwu", "owo", "🥺"]):
+            resp = random.choice(respuestas_tierno)
+        elif any(p in texto for p in [">:(", ">:v", "enojado", "😠", "😡"]):
+            resp = random.choice(respuestas_enojado)
+        elif any(p in texto for p in [":(", ":'(", "triste", "😢", "😭"]):
+            resp = random.choice(respuestas_carita_triste)
+        elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holi", "que onda", "wenas"]):
             resp = random.choice(respuestas_hola)
-            while resp == ultima and len(respuestas_hola) > 1:
-                resp = random.choice(respuestas_hola)
-            ultimas_respuestas[uid] = resp
-            await message.channel.send(resp)
-            return
+        else:
+            resp = random.choice(respuestas_random)
 
-        resp = random.choice(respuestas_random)
         while resp == ultima and len(respuestas_random) > 1:
             resp = random.choice(respuestas_random)
         ultimas_respuestas[uid] = resp
         await message.channel.send(resp)
+        return
 
 keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
