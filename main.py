@@ -432,31 +432,93 @@ async def kickear(interaction: discord.Interaction, usuario: discord.Member, raz
         
 
 GIFS_LISTA = {
-    "abrazar": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "besar": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
-    "pegar": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
-    "morder": ["https://media.tenor.com/2uyENRuvV74AAAAd/bite.gif"],
-    "acariciar": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAd/spongebob-pat.gif"],
-    "pat": ["https://media1.tenor.com/m/4OTDBQCC-AIAAAAd/spongebob-pat.gif"],
-    "lamer": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "comida": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "dormir": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
-    "sonrojar": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
-    "llorar": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "cocinar": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
-    "feliz": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "triste": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
-    "enojado": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
-    "listo": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "boda": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "luna": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
-    "karate": ["https://media1.tenor.com/m/uZDw6kA636YAAAAd/spongebob-squarepants-patrick.gif"],
-    "medusas": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "burbujas": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"],
-    "imaginacion": ["https://media1.tenor.com/m/MN-4AWoMRZQAAAAd/spongebob.gif"],
-    "propuesta": ["https://media1.tenor.com/m/brdxR0hdLHEAAAAd/spongebob-patrick.gif"]
-        }
-
+    "abrazar": [
+        "https://media1.tenor.com/m/MsE7K-BD-YkAAAAC/blacrswan.gif",
+        "https://media1.tenor.com/m/jb1EDjVD2AwAAAAC/hug-spongebob.gif",
+        "https://media1.tenor.com/m/IhPzM0Dde4MAAAAC/spongebob-squarepants-gary-the-snail.gif",
+        "https://media1.tenor.com/m/wXbo11Ml4nsAAAAC/amoeba-spongebob.gif"
+    ],
+    "pat": [
+        "https://media1.tenor.com/m/UazOKY8-RwgAAAAC/love-muah.gif"
+    ],
+    "acariciar": [
+        "https://media1.tenor.com/m/siCgp4GNgTQAAAAC/%E0%A4%9A%E0%A5%81%E0%A4%AE%E0%A5%8D%E0%A4%AE%E0%A4%BE-spongebob.gif",
+        "https://media1.tenor.com/m/p3LmzCWPAMoAAAAC/bubbles-love-you.gif"
+    ],
+    "besar": [
+        "https://media1.tenor.com/m/-2ACdOGMSHMAAAAC/spongebob-bubble-blowing-tech.gif",
+        "https://media1.tenor.com/m/6L7ewdJ0BmAAAAAC/bubble-buddy-spongebob.gif"
+    ],
+    "burbujas": [
+        "https://media1.tenor.com/m/ebmZeRqeb20AAAAC/spongebob-spongebob-meme.gif"
+    ],
+    "boda": [
+        "https://media1.tenor.com/m/GbQHupn6ttsAAAAC/bob-squarepants-grilling.gif",
+        "https://media1.tenor.com/m/Qh2AM1tVZ7IAAAAC/sponge-bob-squarepants-burger.gif"
+    ],
+    "cocinar": [
+        "https://media1.tenor.com/m/VSEIJCPl620AAAAC/spongebob-fry-cook.gif",
+        "https://media1.tenor.com/m/JlSdyg72uv8AAAAC/burger-spongebob.gif"
+    ],
+    "comida": [
+        "https://media1.tenor.com/m/Zckwf2ALjhAAAAAC/spongebob-spongebob-squarepants.gif",
+        "https://media1.tenor.com/m/OdRISn_e-fMAAAAC/stay-cool.gif"
+    ],
+    "feliz": [
+        "https://media1.tenor.com/m/PfU8EnthxfoAAAAC/broken-heart-heartbroken.gif"
+    ],
+    "triste": [
+        "https://media1.tenor.com/m/jECLAOyljO4AAAAC/sad-spongebob.gif",
+        "https://media1.tenor.com/m/VJOdd2gnzQgAAAAC/triste-tristeza.gif"
+    ],
+    "llorar": [
+        "https://media1.tenor.com/m/VJOdd2gnzQgAAAAC/triste-tristeza.gif"
+    ],
+    "enojado": [
+        "https://media1.tenor.com/m/AjDAGXOwHeQAAAAC/spongebob-angry.gif",
+        "https://media1.tenor.com/m/dn5UFCxaVkUAAAAC/spongebob-choking-mr-krabs-angry-spongebob.gif"
+    ],
+    "dormir": [
+        "https://media1.tenor.com/m/y05bQXbwBIYAAAAC/sponge-bob-sleep.gif",
+        "https://media1.tenor.com/m/wIdsJiNbypUAAAAC/sponge-bob-seulisasoo.gif"
+    ],
+    "lamer": [
+        "https://media1.tenor.com/m/9oCgrxjPMMsAAAAd/comfort-licking.gif",
+        "https://media1.tenor.com/m/A7ARFmcg3acAAAAC/lick-jadedkiara.gif"
+    ],
+    "imaginacion": [
+        "https://media1.tenor.com/m/S-TQKsUL38YAAAAC/rainbow-spongebob.gif"
+    ],
+    "karate": [
+        "https://media1.tenor.com/m/bBM-I7ynzF8AAAAC/enhailed.gif",
+        "https://media1.tenor.com/m/6uag6-PeISAAAAAd/sandy-cheeks-spongebob.gif"
+    ],
+    "pegar": [
+        "https://media1.tenor.com/m/ioNXahL9oi8AAAAC/spongebob-gary-hits-spongebob.gif",
+        "https://media1.tenor.com/m/_mHmsrgup2EAAAAC/spongebob-beat.gif"
+    ],
+    "sonrojar": [
+        "https://media1.tenor.com/m/qwvaDwQLtowAAAAC/patrick-blush.gif",
+        "https://media1.tenor.com/m/5dDIprU-_J8AAAAC/embarrassed-shy.gif"
+    ],
+    "listo": [
+        "https://media1.tenor.com/m/rVIB2eOKwHgAAAAC/spongebob-waiting.gif",
+        "https://media1.tenor.com/m/46uUIZlSBuIAAAAC/jellyfishing-spongebob.gif"
+    ],
+    "luna": [
+        "https://media1.tenor.com/m/5oVPGC_xlFUAAAAC/spongebob-smile-fading.gif",
+        "https://media1.tenor.com/m/rTN9H5qy5VUAAAAC/bob-esponja-spongebob.gif"
+    ],
+    "propuesta": [
+        "https://media1.tenor.com/m/J3y2aL7vQpwAAAAC/spongebob-dancing.gif"
+    ],
+    "medusas": [
+        "https://media1.tenor.com/m/46uUIZlSBuIAAAAC/jellyfishing-spongebob.gif"
+    ],
+    "morder": [
+        "https://media1.tenor.com/m/dn5UFCxaVkUAAAAC/spongebob-choking-mr-krabs-angry-spongebob.gif"
+    ]
+}
 async def get_gif(tipo):
     return random.choice(GIFS_LISTA.get(tipo, GIFS_LISTA["abrazar"]))
 
