@@ -21,7 +21,6 @@ CARNADA_FILE = "carnada.json"
 SECRETOS_FILE = "secretos.json"
 SECRETOS_USER_FILE = "secretos_user.json"
 CONF_CANALES_FILE = "conf_canales.json"
-conf_canales = cargar_json(CONF_CANALES_FILE)
 
 def cargar_json(path):
     if os.path.exists(path):
@@ -33,7 +32,9 @@ def cargar_json(path):
 def guardar_json(path, data):
     with open(path, "w") as f: json.dump(data, f)
 
+conf_canales = cargar_json(CONF_CANALES_FILE)
 carnada_data = cargar_json(CARNADA_FILE)
+
 secretos_data = cargar_json(SECRETOS_FILE)
 if "total" not in secretos_data: secretos_data = {"total": 0}
 secretos_user = cargar_json(SECRETOS_USER_FILE)
