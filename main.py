@@ -20,6 +20,8 @@ CANGRE_FILE = "cangreburgers.json"
 CARNADA_FILE = "carnada.json"
 SECRETOS_FILE = "secretos.json"
 SECRETOS_USER_FILE = "secretos_user.json"
+CONF_CANALES_FILE = "conf_canales.json"
+conf_canales = cargar_json(CONF_CANALES_FILE)
 
 def cargar_json(path):
     if os.path.exists(path):
@@ -54,29 +56,39 @@ TIENDA = {
     "nitro_fake": {"nombre": "Nitro Fake ✨", "precio": 3000, "rol": "✨ Nitro Fake", "tipo": "nitro", "color": 0xff73fa},
 }
 
+
 def cargar():
     if os.path.exists(CANGRE_FILE):
         try:
-            with open(CANGRE_FILE, "r") as f: return json.load(f)
+            with open(CANGRE_FILE, "r") as f:
+                data = json.load(f)
+                if data and isinstance(list(data.values())[0], dict) and "burgers" in list(data.values())[0]:
+                    return {}
+                return data
         except: return {}
     return {}
+
 def guardar(data):
     with open(CANGRE_FILE, "w") as f: json.dump(data, f)
 
 cangre_data = cargar()
 
-def add_burgers(uid, cantidad):
+def get_user_data(gid, uid):
+    gid = str(gid)
     uid = str(uid)
-    if uid not in cangre_data:
-        cangre_data[uid] = {"burgers": 0, "nivel": 0, "mascotas": []}
-    if "mascotas" not in cangre_data[uid]:
-        cangre_data[uid]["mascotas"] = []
-    cangre_data[uid]["burgers"] += cantidad
-    nivel = cangre_data[uid]["burgers"] // 50
-    subio = nivel > cangre_data[uid]["nivel"]
-    cangre_data[uid]["nivel"] = nivel
+    if gid not in cangre_data: cangre_data[gid] = {}
+    if uid not in cangre_data[gid]: cangre_data[gid][uid] = {"burgers": 0, "nivel": 0, "mascotas": []}
+    if "mascotas" not in cangre_data[gid][uid]: cangre_data[gid][uid]["mascotas"] = []
+    return cangre_data[gid][uid]
+
+def add_burgers(gid, uid, cantidad):
+    user = get_user_data(gid, uid)
+    user["burgers"] += cantidad
+    nivel = user["burgers"] // 50
+    subio = nivel > user["nivel"]
+    user["nivel"] = nivel
     guardar(cangre_data)
-    return subio, cangre_data[uid]
+    return subio, user
 
 ROL_OWNER = "Bob esponja"
 ROL_ADMIN = "Gerente del Crustáceo Cascarudo"
@@ -167,15 +179,17 @@ async def on_member_join(member):
 
 @bot.tree.command(name="puntos", description="Mira tus CangreBurgers 🍔")
 async def puntos(interaction: discord.Interaction):
-    d = cangre_data.get(str(interaction.user.id), {"burgers": 0, "nivel": 0})
-    await interaction.response.send_message(embed=discord.Embed(title="🍔 TUS CANGREBURGERS", description=f"{interaction.user.mention} tienes **{d['burgers']}** CangreBurgers 🍔\nNivel: **{d['nivel']}** 🧽", color=0xFFEB3B))
+    d = get_user_data(interaction.guild.id, interaction.user.id)
+    await interaction.response.send_message(embed=discord.Embed(title="🍔 TUS CANGREBURGERS", description=f"{interaction.user.mention} tienes **{d['burgers']}** 🍔 (Nv {d['nivel']})"), ephemeral=True)
 
 @bot.tree.command(name="top_bikini", description="Top CangreBurgers 🏆")
 async def top_bikini(interaction: discord.Interaction):
-    if not cangre_data: await interaction.response.send_message("Nadie tiene burgers aún 😿"); return
-    top = sorted(cangre_data.items(), key=lambda x: x[1]['burgers'], reverse=True)[:10]
-    desc = "\n".join([f"**{i}.** <@{uid}> - {d['burgers']} 🍔 (Nv {d['nivel']})" for i,(uid,d) in enumerate(top,1)])
-    await interaction.response.send_message(embed=discord.Embed(title="🏆 TOP CANGREBURGERS", description=desc, color=0xFFEB3B))
+    gid = str(interaction.guild.id)
+    data_guild = cangre_data.get(gid, {})
+    if not data_guild: await interaction.response.send_message("Nadie tiene burgers aún 💔"); return
+    top = sorted(data_guild.items(), key=lambda x: x[1]["burgers"], reverse=True)[:10]
+    desc = "\n".join([f"**{i+1}.** <@{uid}> - {d['burgers']} 🍔 (Nv {d['nivel']})" for i,(uid,d) in enumerate(top)])
+    await interaction.response.send_message(embed=discord.Embed(title="🏆 TOP CANGREBURGERS", description=desc, color=0xFFD700))
 
 @bot.tree.command(name="crustaceo_cascarudo", description="Tienda del Crustáceo Cascarudo 🍔")
 async def crustaceo_cascarudo(interaction: discord.Interaction):
@@ -191,14 +205,14 @@ async def crustaceo_cascarudo(interaction: discord.Interaction):
     desc+="\nUsa `/canjear nombre` y `/mascotas`"
     await interaction.response.send_message(embed=discord.Embed(title="🏪 CRUSTÁCEO CASCARUDO - TIENDA", description=desc, color=0xFFEB3B))
 
-@bot.tree.command(name="mascotas", description="Mira tus mascotas 🐌")
+@bot.tree.command(name="mascotas", description="Mira tus mascotas 🐾")
 async def mascotas_cmd(interaction: discord.Interaction):
-    d = cangre_data.get(str(interaction.user.id), {"burgers": 0, "mascotas": []})
+    d = get_user_data(interaction.guild.id, interaction.user.id)
     masc = d.get("mascotas", [])
     if not masc:
-        await interaction.response.send_message("😿 No tienes mascotas aún.", ephemeral=True); return
+        await interaction.response.send_message("🐾 No tienes mascotas aún.", ephemeral=True); return
     desc = "\n".join([f"• {m}" for m in masc])
-    await interaction.response.send_message(embed=discord.Embed(title=f"🐾 Mascotas de {interaction.user.name}", description=desc, color=0x00FF00))
+    await interaction.response.send_message(embed=discord.Embed(title=f"🐾 Mascotas de {interaction.user.name}", description=desc))
 
 @bot.tree.command(name="canjear", description="Canjea tus CangreBurgers 🍔")
 async def canjear(interaction: discord.Interaction, item: str):
@@ -206,12 +220,9 @@ async def canjear(interaction: discord.Interaction, item: str):
     if item not in TIENDA:
         await interaction.response.send_message(f"❌ No existe. Usa `/crustaceo_cascarudo`", ephemeral=True); return
     uid = str(interaction.user.id)
-    if uid not in cangre_data:
-        cangre_data[uid] = {"burgers": 0, "nivel": 0, "mascotas": []}
-    if "mascotas" not in cangre_data[uid]:
-        cangre_data[uid]["mascotas"] = []
+    gid = str(interaction.guild.id)
 
-    datos = cangre_data[uid]
+    datos = get_user_data(gid, uid)
     tienda_item = TIENDA[item]
     rol_nombre = tienda_item.get("rol")
 
@@ -224,11 +235,11 @@ async def canjear(interaction: discord.Interaction, item: str):
     if datos["burgers"] < tienda_item["precio"]:
         await interaction.response.send_message(f"❌ Te faltan 🍔. Tienes {datos['burgers']} y cuesta {tienda_item['precio']}", ephemeral=True); return
 
-    cangre_data[uid]["burgers"] -= tienda_item["precio"]
+    datos["burgers"] -= tienda_item["precio"]
     if tienda_item["tipo"] in ["mascota", "nitro"]:
-        cangre_data[uid]["mascotas"].append(tienda_item["nombre"])
+        datos["mascotas"].append(tienda_item["nombre"])
     guardar(cangre_data)
-
+    
     if rol_nombre:
         # Si compra un color, quitarle los otros colores que tenga
         if tienda_item["tipo"] == "rol":
@@ -258,7 +269,7 @@ async def dar_burgers(interaction: discord.Interaction, usuario: discord.Member,
         await interaction.response.send_message("❌ Solo Gerentes pueden dar burgers 🦀", ephemeral=True); return
     if cantidad <=0:
         await interaction.response.send_message("❌ Cantidad inválida", ephemeral=True); return
-    subio, data = add_burgers(usuario.id, cantidad)
+    subio, data = add_burgers(str(interaction.guild.id), str(usuario.id), cantidad)
     await interaction.response.send_message(embed=discord.Embed(title="🍔 ¡BURGERS ENTREGADAS!", description=f"¡Le diste **{cantidad}** 🍔 a {usuario.mention}!\nAhora tiene **{data['burgers']}** 🍔 (Nv {data['nivel']})", color=0x00FF00))
 
 @bot.tree.command(name="caracola_magica", description="Preguntale a la caracola mágica 🐚")
@@ -401,7 +412,7 @@ class CazaMedusasView(discord.ui.View):
         self.cazadas += 1
         await interaction.response.send_message(f"¡Cazaste {self.cazadas}/5 medusas! 🪼", ephemeral=True)
         if self.cazadas >= 5:
-            subio, data = add_burgers(self.user.id, 5)
+            subio, data = add_burgers(str(interaction.guild.id), str(self.user.id), 5)
             self.stop()
             await interaction.followup.send(f"🏆 ¡{interaction.user.mention} cazó 5 medusas y ganó **5** 🍔! ¡Tienes {data['burgers']} 🍔!")
 
@@ -418,7 +429,7 @@ class GaryView(discord.ui.View):
         if interaction.user.id!= self.user.id:
             await interaction.response.send_message("❌ No es tu juego!", ephemeral=True); return
         if int(interaction.data["custom_id"]) == self.pos:
-            subio, data = add_burgers(self.user.id, 10)
+            subio, data = add_burgers(str(interaction.guild.id), str(self.user.id), 10)
             await interaction.response.send_message(f"¡{interaction.user.mention} ENCONTRÓ A GARY! 🐌💛 ¡Ganaste 10 🍔! Tienes {data['burgers']} 🍔")
             self.stop()
         else:
@@ -449,7 +460,7 @@ async def atrapa_cangreburger(interaction: discord.Interaction):
     def check(m): return m.channel == interaction.channel and "atrapar" in m.content.lower() and not m.author.bot
     try:
         msg = await bot.wait_for('message', check=check, timeout=5.0)
-        subio, data = add_burgers(msg.author.id, 15)
+        subio, data = add_burgers(str(interaction.guild.id), str(msg.author.id), 15)
         await interaction.followup.send(f"¡{msg.author.mention} ATRAPÓ LA CANGREBURGER! 🍔🏆 +15 🍔 (Total: {data['burgers']} 🍔)")
     except asyncio.TimeoutError:
         await interaction.followup.send("💀 ¡Se cayó! Nadie la atrapó!")
@@ -512,16 +523,18 @@ async def grabadora(interaction: discord.Interaction):
 @bot.tree.command(name="canjear_carnada", description="Canjea 30 carnadas por 1 CangreBurger")
 async def canjear_carnada(interaction: discord.Interaction):
     uid = str(interaction.user.id)
+    gid = str(interaction.guild.id)
     tiene = carnada_data.get(uid, 0)
     if tiene < 30:
-        return await interaction.response.send_message(f"Tienes {tiene}/30 carnadas 🦀", ephemeral=True)
+        return await interaction.response.send_message(f"Tienes {tiene}/30 carnadas 🦐", ephemeral=True)
     carnada_data[uid] -= 30
     guardar_json(CARNADA_FILE, carnada_data)
-    if uid not in cangre_data: cangre_data[uid] = {"burgers": 0, "nivel": 0, "mascotas": []}
-    cangre_data[uid]["burgers"] += 1
+
+    datos = get_user_data(gid, uid)
+    datos["burgers"] += 1
     guardar(cangre_data)
-    await interaction.response.send_message(f"Canjeaste 30 carnadas 🦀 por **1 CangreBurger** 🍔\nAhora tienes {cangre_data[uid]['burgers']} burgers", ephemeral=True)
-    
+    await interaction.response.send_message(f"Canjeaste 30 carnadas 🦐 por **1 CangreBurger** 🍔\nAhora tienes {datos['burgers']} 🍔")
+
 GIFS_LISTA = {
     "abrazar": [
         "https://media1.tenor.com/m/MsE7K-BD-YkAAAAC/blacrswan.gif",
@@ -793,7 +806,10 @@ async def on_message(message):
     if not isinstance(message.channel, discord.DMChannel):
         if not message.content.startswith("!") and not message.content.startswith(")"):
             ganados = random.randint(1, 3)
-            subio, data = add_burgers(message.author.id, ganados)
+                        if message.guild:
+                subio, data = add_burgers(str(message.guild.id), str(message.author.id), ganados)
+            else:
+                subio, data = False, {}
             if subio:
                 canal = bot.get_channel(CANGRE_CHANNEL_ID)
                 if canal:
