@@ -144,23 +144,6 @@ async def crear_roles_automatico(guild):
     except: pass
 
 @bot.event
-async def on_ready():
-    await bot.tree.sync()
-    print(f"Listo {bot.user}")
-    for guild in bot.guilds:
-        try:
-            await crear_roles_automatico(guild)
-            bot_member = guild.get_member(bot.user.id)
-            if bot_member:
-                for n in ["Bob esponja", "NPC", "Gerentes del Crustáceo"]:
-                    r = discord.utils.get(guild.roles, name=n)
-                    if r:
-                        try: await bot_member.add_roles(r)
-                        except: pass
-        except Exception as e:
-            print(e)
-
-@bot.event
 async def on_member_join(member):
     canal = bot.get_channel(WELCOME_CHANNEL_ID)
     if not canal: return
@@ -956,8 +939,14 @@ async def on_message(message):
         ultimas_respuestas[uid] = resp
         await message.channel.send(resp)
         return
+ya_sincronizado = False
+
 @bot.event
 async def on_ready():
+    global ya_sincronizado
+    if ya_sincronizado:
+        return
+    ya_sincronizado = True
     print(f"Bob conectado: {bot.user}")
     try:
         synced = await bot.tree.sync()
