@@ -17,6 +17,16 @@ intents.members = True
 intents.guilds = True
 bot = commands.Bot(command_prefix=["!", "."], intents=intents)
 
+# --- ARCHIVOS JSON ---
+CANGRE_FILE = "cangre.json"
+CONF_CANALES_FILE = "conf_canales.json"
+CARNADA_FILE = "carnada.json"
+SECRETOS_FILE = "secretos.json"
+SECRETOS_USER_FILE = "secretos_user.json"
+WELCOME_FILE = "welcome.json"
+BIENVENIDA_FILE = "bienvenida.json"
+NIVELES_FILE = "niveles.json"
+
 def cargar_json(path):
     if os.path.exists(path):
         try:
