@@ -872,22 +872,17 @@ async def on_message(message):
         elif any(p in texto for p in [":(", ":'(", "triste", "😢", "😭"]):
             resp = random.choice(respuestas_carita_triste)
         elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
-                elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
-        resp = random.choice(respuestas_hola)
-    else:
-        resp = random.choice(respuestas_random)
+            resp = random.choice(respuestas_hola)
+        else:
+            resp = random.choice(respuestas_random)
 
-    uid = message.author.id
-    ultima = ultimas_respuestas.get(uid)
-    while resp == ultima and len(respuestas_random) > 1:
-        resp = random.choice(respuestas_random)
-    ultimas_respuestas[uid] = resp
-    await message.channel.send(resp)
-    return
-
-keep_alive()
-TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
-bot.run(TOKEN)
+        uid = message.author.id
+        ultima = ultimas_respuestas.get(uid)
+        while resp == ultima and len(respuestas_random) > 1:
+            resp = random.choice(respuestas_random)
+        ultimas_respuestas[uid] = resp
+        await message.channel.send(resp)
+        return
 
 keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
