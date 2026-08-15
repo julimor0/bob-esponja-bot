@@ -444,7 +444,7 @@ async def atrapa_cangreburger(interaction: discord.Interaction):
 
 @bot.tree.command(name="banear", description="Banea a un usuario (solo gerentes)")
 async def banear(interaction: discord.Interaction, usuario: discord.Member, razon: str = "Sin razon"):
-        if not interaction.user.guild_permissions.ban_members and not interaction.user.guild_permissions.administrator:
+    if not interaction.user.guild_permissions.ban_members and not interaction.user.guild_permissions.administrator:
         await interaction.response.send_message("❌ Solo gente con permiso de Banear puede banear", ephemeral=True)
         return
  
