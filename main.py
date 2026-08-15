@@ -806,7 +806,7 @@ async def on_message(message):
     if not isinstance(message.channel, discord.DMChannel):
         if not message.content.startswith("!") and not message.content.startswith(")"):
             ganados = random.randint(1, 3)
-                        if message.guild:
+            if message.guild:
                 subio, data = add_burgers(str(message.guild.id), str(message.author.id), ganados)
             else:
                 subio, data = False, {}
