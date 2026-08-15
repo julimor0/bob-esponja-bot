@@ -731,17 +731,17 @@ async def llorar(interaction: discord.Interaction):
     embed = discord.Embed(description=f"😭 **{interaction.user.display_name} está llorando**", color=0x3498db)
     embed.set_image(url=await get_gif("llorar"))
     await interaction.followup.send(embed=embed)
-    @bot.tree.command(name="boda", description="Casate con alguien en Fondo de Bikini")
+    
+@bot.tree.command(name="boda", description="Casate con alguien en Fondo de Bikini")
 async def boda(interaction: discord.Interaction, usuario: discord.User):
     if usuario.id == interaction.user.id:
-        await interaction.response.send_message("😒 No te puedes casar contigo mismo, Bob!", ephemeral=True)
+        await interaction.response.send_message("😅 No te puedes casar contigo mismo!", ephemeral=True)
         return
-    
-        conteo = rp_count("boda", interaction.user.id, usuario.id)
+    conteo = rp_count("boda", interaction.user.id, usuario.id)
     await interaction.response.defer()
     gif_url = await get_gif("boda")
-    embed = discord.Embed(color=0xFF6BC1, title="💍 ¡BODA EN FONDO DE BIKINI! 💒")
-    embed.description = f"**¡Se han casado!**\n\n{interaction.user.mention} 💖 {usuario.mention}\n¡Se han casado **{conteo} veces**!"
+    embed = discord.Embed(color=0xFF68C1, title="💍 ¡BODA EN FONDO DE BIKINI! 💒")
+    embed.description = f"**¡Se han casado!**\n\n{interaction.user.mention} 💖 {usuario.mention}"
     embed.set_image(url=gif_url)
     embed.set_footer(text="Oficiado por el mismísimo Bob Esponja 🧽")
     await interaction.followup.send(embed=embed)
