@@ -803,18 +803,15 @@ async def on_message(message):
     ultimo_mensaje_id.add(message.id)
     if len(ultimo_mensaje_id) > 1000: ultimo_mensaje_id.clear()
 
-    # Burgers por hablar (solo server)
+        # Burgers por hablar (solo servidor)
     if not isinstance(message.channel, discord.DMChannel):
-        if not message.content.startswith("!") and not message.content.startswith(")"):
+        if not message.content.startswith("!") and not message.content.startswith("."):
             ganados = random.randint(1, 3)
-            if message.guild:
-                subio, data = add_burgers(str(message.guild.id), str(message.author.id), ganados)
-            else:
-                subio, data = False, {}
+            subio, data = add_burgers(str(message.guild.id), str(message.author.id), ganados)
             if subio:
                 canal = bot.get_channel(CANGRE_CHANNEL_ID)
                 if canal:
-                    embed = discord.Embed(title="¡SUBISTE DE NIVEL! 🎉", description=f"¡¡{message.author.mention} subió al nivel **{data['nivel']}**!! 🧽✨\n¡Tienes {data['burgers']} CangreBurgers! 🍔", color=0xFFEB3B)
+                    embed = discord.Embed(title="¡SUBISTE DE NIVEL! 🎉", description=f"¡{message.author.mention} subió a nivel {data['nivel']}!", color=0xFFD700)
                     try: await canal.send(embed=embed)
                     except: pass
 
