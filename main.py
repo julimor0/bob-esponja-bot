@@ -17,6 +17,24 @@ bot = commands.Bot(command_prefix=["!", ")"], intents=intents)
 WELCOME_CHANNEL_ID = 1537139780662329364
 CANGRE_CHANNEL_ID = 1537279256281747588
 CANGRE_FILE = "cangreburgers.json"
+CARNADA_FILE = "carnada.json"
+SECRETOS_FILE = "secretos.json"
+SECRETOS_USER_FILE = "secretos_user.json"
+
+def cargar_json(path):
+    if os.path.exists(path):
+        try:
+            with open(path, "r") as f: return json.load(f)
+        except: return {}
+    return {}
+
+def guardar_json(path, data):
+    with open(path, "w") as f: json.dump(data, f)
+
+carnada_data = cargar_json(CARNADA_FILE)
+secretos_data = cargar_json(SECRETOS_FILE)
+if "total" not in secretos_data: secretos_data = {"total": 0}
+secretos_user = cargar_json(SECRETOS_USER_FILE)
 
 TIENDA = {
     "color_azul": {"nombre": "Color burger azul 🔵", "precio": 100, "rol": "Color burger azul", "tipo": "rol", "color": 0x3498db},
@@ -464,8 +482,46 @@ async def kickear(interaction: discord.Interaction, usuario: discord.Member, raz
         await interaction.response.send_message(f"👢 {usuario.mention} fue expulsado. Razón: {razon}")
     except:
         await interaction.response.send_message("❌ No lo pude kickear", ephemeral=True)
-        
+   
+@bot.tree.command(name="confesar", description="Dile algo al oso confesoso 🐻")
+async def confesar(interaction: discord.Interaction, dile_algo_al_oso: str):
+    CONF_CHANNEL_ID = 1537279895892140092 # tu canal
+    canal = bot.get_channel(CONF_CHANNEL_ID)
+    uid = str(interaction.user.id)
+    secretos_data["total"] += 1
+    guardar_json(SECRETOS_FILE, secretos_data)
+    secretos_user[uid] = secretos_user.get(uid, 0) + 1
+    guardar_json(SECRETOS_USER_FILE, secretos_user)
+    bonus = ""
+    if secretos_user[uid] >= 10:
+        secretos_user[uid] -= 10
+        carnada_data[uid] = carnada_data.get(uid, 0) + 5
+        guardar_json(SECRETOS_USER_FILE, secretos_user)
+        guardar_json(CARNADA_FILE, carnada_data)
+        bonus = f"\n¡Juntaste 10 secretos! +5 carnadas 🦀"
+    embed = discord.Embed(description=dile_algo_al_oso, color=0x8B5A2B)
+    embed.set_author(name="El oso confesoso a soltado un secreto")
+    embed.set_footer(text=f"El oso confesoso lo guardo en la grabadora | Secreto #{secretos_data['total']}")
+    await canal.send(embed=embed)
+    await interaction.response.send_message(f"Llevas {secretos_user.get(uid, 0)}/10 secretos para 5 carnadas{bonus}\nTienes {carnada_data.get(uid, 0)} carnadas 🦀", ephemeral=True)
 
+@bot.tree.command(name="grabadora", description="Ve cuantos secretos lleva el oso")
+async def grabadora(interaction: discord.Interaction):
+    await interaction.response.send_message(f"📼 El oso lleva **{secretos_data.get('total', 0)} secretos** guardados en la grabadora", ephemeral=True)
+
+@bot.tree.command(name="canjear_carnada", description="Canjea 30 carnadas por 1 CangreBurger")
+async def canjear_carnada(interaction: discord.Interaction):
+    uid = str(interaction.user.id)
+    tiene = carnada_data.get(uid, 0)
+    if tiene < 30:
+        return await interaction.response.send_message(f"Tienes {tiene}/30 carnadas 🦀", ephemeral=True)
+    carnada_data[uid] -= 30
+    guardar_json(CARNADA_FILE, carnada_data)
+    if uid not in cangre_data: cangre_data[uid] = {"burgers": 0, "nivel": 0, "mascotas": []}
+    cangre_data[uid]["burgers"] += 1
+    guardar(cangre_data)
+    await interaction.response.send_message(f"Canjeaste 30 carnadas 🦀 por **1 CangreBurger** 🍔\nAhora tienes {cangre_data[uid]['burgers']} burgers", ephemeral=True)
+    
 GIFS_LISTA = {
     "abrazar": [
         "https://media1.tenor.com/m/MsE7K-BD-YkAAAAC/blacrswan.gif",
