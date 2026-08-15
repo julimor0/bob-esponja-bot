@@ -17,14 +17,6 @@ intents.members = True
 intents.guilds = True
 bot = commands.Bot(command_prefix=["!", "."], intents=intents)
 
-WELCOME_CHANNEL_ID = 1537139780662329364
-CANGRE_CHANNEL_ID = 1537279256281747588
-CANGRE_FILE = "cangreburgers.json"
-CARNADA_FILE = "carnada.json"
-SECRETOS_FILE = "secretos.json"
-SECRETOS_USER_FILE = "secretos_user.json"
-CONF_CANALES_FILE = "conf_canales.json"
-
 def cargar_json(path):
     if os.path.exists(path):
         try:
@@ -145,24 +137,24 @@ async def crear_roles_automatico(guild):
 
 @bot.event
 async def on_member_join(member):
-    canal = bot.get_channel(WELCOME_CHANNEL_ID)
+    gid=str(member.guild.id)
+    canal=None
+    if gid in conf_canales and "bienvenida" in conf_canales[gid]:
+        canal=bot.get_channel(conf_canales[gid]["bienvenida"])
+    if not canal:
+        for ch in member.guild.text_channels:
+            if ch.permissions_for(member.guild.me).send_messages:
+                canal=ch
+                break
     if not canal: return
-    embed = discord.Embed(
-        title="¡ESTOY LISTOOOOO! 🧽🍍",
-        description=f"¡¡Llegó {member.mention} a Fondo de Bikini!! 🎉\n¡Holaaa {member.name}! 💛\n¡Ya somos **{member.guild.member_count}** habitantes! 🥳\n\nUsa `/puntos` para ver tus CangreBurgers 🍔\n¡Bienvenido a BIKINI BOTTOM! 🛟",
-        color=0xFFEB3B
-    )
+    embed=discord.Embed(title="¡ESTOY LISTOOOOO! 🧽🍍", description=f"¡¡Llegó {member.mention}!! Ya somos {member.guild.member_count} 🥳", color=0xFFEB3B)
     embed.set_thumbnail(url=member.display_avatar.url)
     embed.set_image(url="attachment://bienvenida.jpg")
-    embed.set_footer(text="Fondo de Bikini • ¡Estoy listo!")
     try:
-        archivo = discord.File("bienvenida.jpg", filename="bienvenida.jpg")
-        await canal.send(content=f"¡¡{member.mention} ESTOY LISTO!! 🧽🛟", embed=embed, file=archivo)
-    except Exception as e:
-        print(f"Error bienvenida: {e}")
-        try:
-            await canal.send(content=f"¡¡{member.mention} ESTOY LISTO!! 🧽", embed=embed)
-        except: pass
+        archivo=discord.File("bienvenida.jpg", filename="bienvenida.jpg")
+        await canal.send(content=f"¡¡{member.mention} ESTOY LISTO!!", embed=embed, file=archivo)
+    except:
+        await canal.send(embed=embed)
 
 @bot.tree.command(name="puntos", description="Mira tus CangreBurgers 🍔")
 async def puntos(interaction: discord.Interaction):
@@ -250,9 +242,7 @@ async def canjear(interaction: discord.Interaction, item: str):
     await interaction.response.send_message(embed=discord.Embed(title="¡CANJE EXITOSO! 🎉", description=f"Canjeaste **{tienda_item['nombre']}** por **{tienda_item['precio']}** 🍔\n¡Te quedan {cangre_data[uid]['burgers']} 🍔!", color=0x00FF00))
 @bot.tree.command(name="dar_burgers", description="Dale CangreBurgers a alguien (Solo Gerentes) 🍔")
 async def dar_burgers(interaction: discord.Interaction, usuario: discord.Member, cantidad: int):
-    tiene_owner = discord.utils.get(interaction.user.roles, name=ROL_OWNER)
-    tiene_admin = discord.utils.get(interaction.user.roles, name=ROL_ADMIN)
-    if not tiene_owner and not tiene_admin and not interaction.user.guild_permissions.administrator:
+    if not interaction.user.guild_permissions.administrator:
         await interaction.response.send_message("❌ Solo Gerentes pueden dar burgers 🦀", ephemeral=True); return
     if cantidad <=0:
         await interaction.response.send_message("❌ Cantidad inválida", ephemeral=True); return
@@ -454,11 +444,10 @@ async def atrapa_cangreburger(interaction: discord.Interaction):
 
 @bot.tree.command(name="banear", description="Banea a un usuario (solo gerentes)")
 async def banear(interaction: discord.Interaction, usuario: discord.Member, razon: str = "Sin razon"):
-    rol_gerente = discord.utils.get(interaction.user.roles, name="gerentes del Crustáceo")
-    if not rol_gerente and not interaction.user.guild_permissions.administrator:
-        await interaction.response.send_message("❌ Solo los gerentes del Crustáceo pueden banear", ephemeral=True)
+        if not interaction.user.guild_permissions.ban_members and not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("❌ Solo gente con permiso de Banear puede banear", ephemeral=True)
         return
-
+ 
     if usuario.top_role >= interaction.guild.me.top_role:
         await interaction.response.send_message("❌ No lo puedo banear, tiene rol mas alto que yo", ephemeral=True)
         return
@@ -471,10 +460,10 @@ async def banear(interaction: discord.Interaction, usuario: discord.Member, razo
 
 @bot.tree.command(name="kickear", description="Expulsa a un usuario (solo gerentes)")
 async def kickear(interaction: discord.Interaction, usuario: discord.Member, razon: str = "Sin razon"):
-    rol_gerente = discord.utils.get(interaction.user.roles, name="gerentes del Crustáceo")
-    if not rol_gerente and not interaction.user.guild_permissions.administrator:
-        await interaction.response.send_message("❌ Solo los gerentes del Crustáceo pueden kickear", ephemeral=True)
+    if not interaction.user.guild_permissions.kick_members and not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("❌ Solo gente con permiso de Kickear puede kickear", ephemeral=True)
         return
+    
     try:
         await usuario.kick(reason=razon)
         await interaction.response.send_message(f"👢 {usuario.mention} fue expulsado. Razón: {razon}")
@@ -483,8 +472,10 @@ async def kickear(interaction: discord.Interaction, usuario: discord.Member, raz
    
 @bot.tree.command(name="confesar", description="Dile algo al oso confesoso 🐻")
 async def confesar(interaction: discord.Interaction, dile_algo_al_oso: str):
-    CONF_CHANNEL_ID = 1537279895892140092 # tu canal
-    canal = bot.get_channel(CONF_CHANNEL_ID)
+    gid_conf=str(interaction.guild.id)
+    conf=conf_canales.get(gid_conf,{})
+    canal_id=conf.get("confesiones")
+    canal=bot.get_channel(canal_id) if canal_id else interaction.channel
     uid = str(interaction.user.id)
     secretos_data["total"] += 1
     guardar_json(SECRETOS_FILE, secretos_data)
@@ -506,6 +497,36 @@ async def confesar(interaction: discord.Interaction, dile_algo_al_oso: str):
 @bot.tree.command(name="grabadora", description="Ve cuantos secretos lleva el oso")
 async def grabadora(interaction: discord.Interaction):
     await interaction.response.send_message(f"📼 El oso lleva **{secretos_data.get('total', 0)} secretos** guardados en la grabadora", ephemeral=True)
+
+@bot.tree.command(name="set_bienvenida", description="Configura bienvenida de ESTE server")
+async def set_bienvenida(interaction: discord.Interaction, canal: discord.TextChannel):
+    if not interaction.user.guild_permissions.administrator:
+        return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
+    gid=str(interaction.guild.id)
+    if gid not in conf_canales: conf_canales[gid]={}
+    conf_canales[gid]["bienvenida"]=canal.id
+    guardar_json(CONF_CANALES_FILE, conf_canales)
+    await interaction.response.send_message(f"✅ Bienvenida en {canal.mention}", ephemeral=True)
+
+@bot.tree.command(name="set_niveles", description="Configura niveles")
+async def set_niveles(interaction: discord.Interaction, canal: discord.TextChannel):
+    if not interaction.user.guild_permissions.administrator:
+        return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
+    gid=str(interaction.guild.id)
+    if gid not in conf_canales: conf_canales[gid]={}
+    conf_canales[gid]["cangre"]=canal.id
+    guardar_json(CONF_CANALES_FILE, conf_canales)
+    await interaction.response.send_message(f"✅ Niveles en {canal.mention}", ephemeral=True)
+
+@bot.tree.command(name="set_confesiones", description="Configura confesiones")
+async def set_confesiones(interaction: discord.Interaction, canal: discord.TextChannel):
+    if not interaction.user.guild_permissions.administrator:
+        return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
+    gid=str(interaction.guild.id)
+    if gid not in conf_canales: conf_canales[gid]={}
+    conf_canales[gid]["confesiones"]=canal.id
+    guardar_json(CONF_CANALES_FILE, conf_canales)
+    await interaction.response.send_message(f"✅ Confesiones en {canal.mention}", ephemeral=True)
 
 @bot.tree.command(name="canjear_carnada", description="Canjea 30 carnadas por 1 CangreBurger")
 async def canjear_carnada(interaction: discord.Interaction):
@@ -710,7 +731,7 @@ async def llorar(interaction: discord.Interaction):
     embed = discord.Embed(description=f"😭 **{interaction.user.display_name} está llorando**", color=0x3498db)
     embed.set_image(url=await get_gif("llorar"))
     await interaction.followup.send(embed=embed)
-@bot.tree.command(name="boda", description="Casate con alguien en Fondo de Bikini")
+    @bot.tree.command(name="boda", description="Casate con alguien en Fondo de Bikini")
 async def boda(interaction: discord.Interaction, usuario: discord.User):
     if usuario.id == interaction.user.id:
         await interaction.response.send_message("😒 No te puedes casar contigo mismo, Bob!", ephemeral=True)
