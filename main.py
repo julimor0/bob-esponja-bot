@@ -11,8 +11,11 @@ def run():
     app.run(host='0.0.0.0', port=port)
 def keep_alive(): Thread(target=run).start()
 
-intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=["!", ")"], intents=intents)
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+intents.guilds = True
+bot = commands.Bot(command_prefix=["!", "."], intents=intents)
 
 WELCOME_CHANNEL_ID = 1537139780662329364
 CANGRE_CHANNEL_ID = 1537279256281747588
@@ -953,6 +956,14 @@ async def on_message(message):
         ultimas_respuestas[uid] = resp
         await message.channel.send(resp)
         return
+@bot.event
+async def on_ready():
+    print(f"Bob conectado: {bot.user}")
+    try:
+        synced = await bot.tree.sync()
+        print(f"Slash sincronizados: {len(synced)}")
+    except Exception as e:
+        print(e)
 
 keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
