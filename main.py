@@ -509,7 +509,8 @@ async def grabadora(interaction: discord.Interaction):
     await interaction.response.send_message(f"📼 El oso lleva **{secretos_data.get('total', 0)} secretos** guardados en la grabadora", ephemeral=True)
 
 @bot.tree.command(name="set_bienvenida", description="Configura bienvenida de ESTE server")
-async def set_bienvenida(interaction: discord.Interaction, canal: discord.TextChannel):
+async def set_bienvenida(interaction: discord.Interaction):
+    canal = interaction.channel
     if not interaction.user.guild_permissions.administrator:
         return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
     gid=str(interaction.guild.id)
@@ -519,7 +520,8 @@ async def set_bienvenida(interaction: discord.Interaction, canal: discord.TextCh
     await interaction.response.send_message(f"✅ Bienvenida en {canal.mention}", ephemeral=True)
 
 @bot.tree.command(name="set_niveles", description="Configura niveles")
-async def set_niveles(interaction: discord.Interaction, canal: discord.TextChannel):
+async def set_niveles(interaction: discord.Interaction):
+    canal = interaction.channel
     if not interaction.user.guild_permissions.administrator:
         return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
     gid=str(interaction.guild.id)
@@ -529,7 +531,8 @@ async def set_niveles(interaction: discord.Interaction, canal: discord.TextChann
     await interaction.response.send_message(f"✅ Niveles en {canal.mention}", ephemeral=True)
 
 @bot.tree.command(name="set_confesiones", description="Configura confesiones")
-async def set_confesiones(interaction: discord.Interaction, canal: discord.TextChannel):
+async def set_confesiones(interaction: discord.Interaction):
+    canal = interaction.channel
     if not interaction.user.guild_permissions.administrator:
         return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
     gid=str(interaction.guild.id)
@@ -980,8 +983,16 @@ async def on_ready():
     ya_sincronizado = True
     print(f"Bob conectado: {bot.user}")
     try:
+        # Sincroniza instantáneo en cada servidor donde está Bob
+        for guild in bot.guilds:
+            try:
+                await bot.tree.sync(guild=guild)
+                print(f"Slash sincronizados en {guild.name}")
+            except Exception as e:
+                print(f"Error en {guild.name}: {e}")
+        # También global por si acaso
         synced = await bot.tree.sync()
-        print(f"Slash sincronizados: {len(synced)}")
+        print(f"Slash globales: {len(synced)}")
     except Exception as e:
         print(e)
 
