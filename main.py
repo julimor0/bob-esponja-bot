@@ -1,16 +1,6 @@
 import discord, random, os, yt_dlp, asyncio, re, json
 from discord.ext import commands, tasks
 import datetime
-from flask import Flask
-from threading import Thread
-
-app = Flask('')
-@app.route('/')
-def home(): return "¡Crustáceo Cascarudo abierto! 🍔"
-def run():
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
-def keep_alive(): Thread(target=run).start()
 
 intents = discord.Intents.default()
 intents.message_content = True
