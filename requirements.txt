@@ -1,4 +1,5 @@
-discord.py[voice]
-yt-dlp
+discord.py
 PyNaCl
+yt-dlp
 spotipy
+youtube-search-python
