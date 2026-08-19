@@ -1,5 +1,6 @@
 import discord, random, os, yt_dlp, asyncio, re, json
-from discord.ext import commands
+from discord.ext import commands, tasks
+import datetime
 from flask import Flask
 from threading import Thread
 
@@ -26,23 +27,30 @@ SECRETOS_USER_FILE = "secretos_user.json"
 WELCOME_FILE = "welcome.json"
 BIENVENIDA_FILE = "bienvenida.json"
 NIVELES_FILE = "niveles.json"
+CUMPLES_FILE = "cumples.json"
+CUMPLES_CANALES_FILE = "cumples_canales.json"
 
-def cargar_json(path):
+def cargar_json(path, default=None):
+    if default is None:
+        default = {}
     if os.path.exists(path):
         try:
             with open(path, "r") as f: return json.load(f)
-        except: return {}
-    return {}
+        except: return default
+    return default
 
 def guardar_json(path, data):
     with open(path, "w") as f: json.dump(data, f)
 
 conf_canales = cargar_json(CONF_CANALES_FILE)
 carnada_data = cargar_json(CARNADA_FILE)
-
 secretos_data = cargar_json(SECRETOS_FILE)
 if "total" not in secretos_data: secretos_data = {"total": 0}
 secretos_user = cargar_json(SECRETOS_USER_FILE)
+
+cumples_data = cargar_json(CUMPLES_FILE, {})
+cumples_canales = cargar_json(CUMPLES_CANALES_FILE, {})
+cumples_felicitados = {}
 
 TIENDA = {
     "color_azul": {"nombre": "Color burger azul 🔵", "precio": 100, "rol": "Color burger azul", "tipo": "rol", "color": 0x3498db},
@@ -813,6 +821,122 @@ async def cangreburguer(interaction: discord.Interaction):
     embed.set_image(url=await get_gif("comida"))
     await interaction.followup.send(embed=embed)
 
+# ===== SISTEMA CUMPLES ESTILO MEJOR DIA - PRIVADO =====
+from discord.ext import tasks
+import datetime
+
+class CumpleView(discord.ui.View):
+    def __init__(self):
+        super().__init__()
+        self.add_item(discord.ui.Button(label="🎶 El Mejor Día De Todos", url="https://www.youtube.com/watch?v=a2RA0Vs2Knc", style=discord.ButtonStyle.link))
+
+@bot.tree.command(name="mi_cumple", description="Guarda tu cumpleaños en privado 🎂")
+async def mi_cumple(interaction: discord.Interaction, dia: int, mes: int, edad: int = None):
+    # PRIVADO COMO OSO CONFESOSO - ephemeral
+    if dia < 1 or dia > 31 or mes < 1 or mes > 12:
+        return await interaction.response.send_message("❌ Fecha inválida. Usa: `/mi_cumple 15 8` o `/mi_cumple 15 8 17` si quieres poner edad", ephemeral=True)
+    if edad is not None and (edad < 1 or edad > 100):
+        return await interaction.response.send_message("❌ Edad inválida", ephemeral=True)
+
+    uid = str(interaction.user.id)
+    cumples_data[uid] = {"dia": dia, "mes": mes, "edad": edad}
+    guardar_json(CUMPLES_FILE, cumples_data)
+
+    if edad:
+        msg = f"✅ ¡Guardado en privado! Tu cumple es **{dia}/{mes}** y cumples **{edad}** 🎉\n🔒 Nadie verá esto, solo Bob te felicitará ese día."
+    else:
+        msg = f"✅ ¡Guardado en privado! Tu cumple es **{dia}/{mes}** 🎉\n🔒 Nadie verá esto, solo Bob te felicitará ese día.\n💡 Tip: Si quieres poner tu edad usa `/mi_cumple {dia} {mes} 17`"
+
+    await interaction.response.send_message(msg, ephemeral=True)
+
+@bot.tree.command(name="set_cumples", description="Canal donde Bob felicitará con colores Bob")
+async def set_cumples(interaction: discord.Interaction):
+    canal = interaction.channel
+    if not interaction.user.guild_permissions.administrator:
+        return await interaction.response.send_message("❌ Solo admins", ephemeral=True)
+    cumples_canales[str(interaction.guild.id)] = canal.id
+    guardar_json(CUMPLES_CANALES_FILE, cumples_canales)
+    await interaction.response.send_message(f"✅ Bob felicitará los cumpleaños en {canal.mention} con colores Bob Esponja 🎨💛", ephemeral=True)
+
+@tasks.loop(minutes=60)
+async def revisar_cumples():
+    ahora = datetime.datetime.now()
+    dia_hoy = ahora.day
+    mes_hoy = ahora.month
+    fecha_hoy_str = f"{dia_hoy}-{mes_hoy}-{ahora.year}"
+
+    for guild in bot.guilds:
+        gid = str(guild.id)
+        if gid not in cumples_canales: continue
+        canal = guild.get_channel(cumples_canales[gid])
+        if not canal: continue
+
+        for uid, data in cumples_data.items():
+            if data["dia"] == dia_hoy and data["mes"] == mes_hoy:
+                key = f"{gid}-{uid}-{fecha_hoy_str}"
+                if key in cumples_felicitados: continue
+                try:
+                    member = guild.get_member(int(uid))
+                    if not member: continue
+
+                    # EDAD OPCIONAL
+                    edad_text = ""
+                    if data.get("edad"):
+                        edad_text = f" ¡Hoy cumples **{data['edad']}** años! 🎂"
+
+                    embed = discord.Embed(
+                        title="☀️ ¡EL MEJOR DÍA DE TODOS! 🎉",
+                        description=(
+                            f"## 💛💙 ¡¡ @everyone ES EL MEJOR DÍA DE TODOS!!! 💙💛\n"
+                            f"### 🎂 Hoy es el cumple de {member.mention}{edad_text} 🎈\n\n"
+                            f"🎤 **Bob Esponja canta:**\n"
+                            f"```\n"
+                            f"El sol ha salido y me ha sonreído\n"
+                            f"Que seria un buen día me ha prometido\n\n"
+                            f"Salte de la cama con mucha alegría\n"
+                            f"Sintiéndome como nunca\n\n"
+                            f"Y el mejor día es (es el mejor)\n"
+                            f"El mejor día es (es el mejor)\n"
+                            f"```\n"
+                            f"🐌 *Hola Gary, ¿porqué es el mejor día?*\n"
+                            f"🧽 *¡Porque hoy es el cumple de **{member.display_name}**!*\n"
+                            f"🌸 *Hoy voy a darle vida a una nueva generación de flores*\n"
+                            f"🎈 *y salgo así, con globos y regalos para festejar*\n"
+                            f"🎉 *con una gran fiesta con Arenita*\n"
+                            f"🎁 *y una tarde entera celebrando con Patricio*\n"
+                            f"🎂 *donde revelaremos el pastel de lujo profesional*\n"
+                            f"🥳 *¡Y para el gran final, todos cantaremos Feliz Cumpleaños!*\n"
+                            f"¡Estoy tan emocionado creo que voy a explotar!*\n\n"
+                            f"🎤 **¡TODOS CANTAMOS!**\n"
+                            f"```diff\n"
+                            f"+ El mejor día es (es el mejor) 🎂\n"
+                            f"+ El mejor día es (es el mejor) 🎉\n"
+                            f"+ ¡FELIZ CUMPLEAÑOS {member.display_name.upper()}!\n"
+                            f"+ ¡El mejor día es! (¡es el mejor!) 🎶\n"
+                            f"```\n"
+                            f"━━━━━━━━━━━━━━━━━━━━\n"
+                            f"# 💛 ¡FELIZ CUMPLEAÑOS! 💛"
+                        ),
+                        color=0xFFD700 # Amarillo Bob Esponja
+                    )
+                    embed.set_thumbnail(url=member.display_avatar.url)
+                    embed.set_image(url="https://media.tenor.com/8aXv5g3yY5AAAAAi/spongebob-best-day-ever.gif")
+                    embed.set_footer(text=f"💛💙 Bob Esponja | 🎂 {dia_hoy}/{mes_hoy} | ¡El Mejor Día De Todos!", icon_url=bot.user.display_avatar.url)
+                    embed.set_author(name=f"🎤 ¡Hoy es el cumple de {member.display_name}!")
+
+                    await canal.send(
+                        content=f"@everyone 💛💙☀️ ¡¡¡EL MEJOR DÍA DE TODOS!!! Hoy cumple {member.mention} 🎉🎂🎈",
+                        embed=embed,
+                        view=CumpleView()
+                    )
+                    cumples_felicitados[key] = True
+                except Exception as e:
+                    print(f"Error cumple: {e}")
+
+@revisar_cumples.before_loop
+async def before_cumples():
+    await bot.wait_until_ready()
+
 ultimo_mensaje_id = set()
 ultimas_respuestas = {}
 
@@ -981,6 +1105,8 @@ async def on_ready():
     if ya_sincronizado:
         return
     ya_sincronizado = True
+    if not revisar_cumples.is_running():
+        revisar_cumples.start()
     print(f"Bob conectado: {bot.user}")
     try:
         # Sincroniza instantáneo en cada servidor donde está Bob
