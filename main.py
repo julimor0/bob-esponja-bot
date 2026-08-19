@@ -1112,6 +1112,5 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-keep_alive()
 TOKEN = os.getenv("DISCORD_TOKEN") or os.getenv("TOKEN")
 bot.run(TOKEN)
