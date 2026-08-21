@@ -1043,13 +1043,14 @@ async def on_message(message):
         f"¡Oh no {message.author.name}! ¿Por qué esa carita? ¡Te doy un abrazo! 🤗",
         f"¡{message.author.name}! ¿Estás triste? ¡Yo estoy aquí contigo! 💛",
     ]
-    respuestas_random = [
-        f"¡Jajaja {texto_original_full}! ¡Eso me recuerda a Patricio! 😃",
-        f"¡{texto_original_full}? ¡Eso dijo Calamardo que nunca! 😮",
-        f"¡Imagínate! ¡{texto_original_full} en Fondo de Bikini! ✨",
-        f"¡Santa madre de Gary! ¡{texto_original_full}! ¡Qué locura!",
-        f"¡Patricio, {texto_original_full}! ¿Qué opinas? ⭐",
+        respuestas_random = [
+        f"¡Jajaja! ¡Eso me recuerda a Patricio! 😃 {message.author.name}",
+        f"¡Santa madre de Gary! ¡Qué locura! {message.author.name} 🐌",
+        f"¡Imagínate eso en Fondo de Bikini! ✨ {message.author.name}",
+        f"¡Estoy listo! ¡Estoy listo! {message.author.name} 🙋‍♂️",
+        f"¡Eso suena divertido {message.author.name}! ¡Vamos a cazar medusas! 🪼",
     ]
+    
         # --- PARTE 1 - MEGA PACK ---
     respuestas_patricio = [f"¡PATRICIOOO {message.author.name}! ¡Mi mejor amigo! ⭐💛", f"¡Patricio estrella {message.author.name}! ¡Brilla! ⭐✨", f"¡No, esto es Patricio! 🪨 {message.author.name} ¡Jajaja! 😂", f"¡Patricio ¿Es mayonesa un instrumento? 🥜 {message.author.name}!", f"¡Patricio y yo medusas {message.author.name}! ¡Estoy listo! 🪼⭐🙋‍♂️", f"¡Patricio roca y yo piña {message.author.name}! 🪨🍍👯‍♂️", f"¡Patricio se comió mi dona {message.author.name}! 🍩⭐", f"¡Yo wumbo tú wumbo {message.author.name}! ⭐📚"]
     respuestas_calamardo = [f"¡CALAMARDOOO {message.author.name}! ¡Hola vecino! 🗿💛", f"¡Calamardo clarinete {message.author.name}! ¡Piii! 🎶🗿", f"¡Otra vez Bob Esponja! {message.author.name} ¡Sí soy yo! 🗿🧽😂", f"¡Calamardo artista {message.author.name}! ¡Fan #1! 🎨🗿👏", f"¡Casa Moai elegante {message.author.name}! 🗿🏛️", f"¡Calamardo gruñón pero lo quiero {message.author.name}! 🗿💛", f"¡Calamardo famoso {message.author.name}! 🌟🗿", f"¡Vecino Calamardo {message.author.name}! ¡Vamos a jugar! 🗿🧽"]
@@ -1123,14 +1124,14 @@ async def on_message(message):
                 resp = random.choice(respuestas_me_siento_mal)
         elif any(p in texto for p in ["vas a cazar medusas", "vas a pescar medusas", "cazar medusas", "pescar medusas", "vamos a cazar medusas"]):
             resp = random.choice(respuestas_medusas)
-        elif any(p in texto for p in ["quieres jugar", "jugamos", "juegas conmigo", "quieres jugar conmigo"]):
+        elif any(p in texto for p in ["quieres jugar", "jugamos", "juegas conmigo", "quieres jugar conmigo", "jugar con patricio", "jugar"]):
             resp = random.choice(respuestas_jugar)
         elif any(p in texto for p in ["eres lindo", "te amo bob", "te quiero mucho", "eres tierno", "eres hermoso", "que bonito"]):
             resp = random.choice(respuestas_bonito)
         elif any(p in texto for p in ["estoy triste", "toy triste", "esa carita"]):
             resp = random.choice(respuestas_triste)
         elif "cangreburger" in texto:
-            resp = random.choice(respuestas_cangreburger)
+            resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3 + respuestas_mucha_cangre)
         elif any(p in texto for p in ["te quiero", "te amo", "tqm"]):
             resp = random.choice(respuestas_te_quiero)
         elif any(p in texto for p in ["eres mi amigo", "somos amigos"]):
