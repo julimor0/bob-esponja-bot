@@ -1093,70 +1093,6 @@ async def on_message(message):
     respuestas_mucha_cangre = [f"¡MONTAÑA CANGREBURGERS {message.author.name}! 🍔⛰️🤤", f"¡Lluvia CangreBurgers abre boca {message.author.name}! 🍔🌧️😋", f"¡Muchas fiesta {message.author.name}! 🍔🍔🎉💛", f"¡Por todos lados piña cama corazón {message.author.name}! 🍍💛🍔", f"¡Infinita amistad {message.author.name}! 🍔♾️💛🧽", f"¡Desayuno comida cena {message.author.name}! 🍔🌅🌙", f"¡Extra todo extra Bob {message.author.name}! 🍔✨🧽💛", f"¡Volando medusas burgers {message.author.name}! 🍔🪼😂"]
     respuestas_fondo_cangre = [f"¡Crustáceo Cascarudo casa {message.author.name}! 🍔🏪💛🙋‍♂️", f"¡Huele a CangreBurger felicidad {message.author.name}! 🍔👃💛", f"¡Mi segundo hogar parrilla {message.author.name}! 🍔🏠", f"¡Crustáceo solo CangreBurgers {message.author.name}! 🍔🏪", f"¡Crustáceo brilla {message.author.name}! 🍔✨🏪"]
 
-    # --- PREGUNTAS CON RANDOM - PEGALO AL FINAL DE TODO ---
-    if "que es para ti patricio" in texto or "quien es patricio" in texto:
-        resp = random.choice(respuestas_patricio)
-    elif "que es para ti calamardo" in texto:
-        resp = random.choice(respuestas_calamardo)
-    elif "que es para ti arenita" in texto:
-        resp = random.choice(respuestas_arenita)
-    elif "que es para ti don cangrejo" in texto or "que es para ti cangrejo" in texto and "burger" not in texto:
-        resp = random.choice(respuestas_don_cangrejo_n)
-    elif "que es para ti plankton" in texto:
-        resp = random.choice(respuestas_plankton_n)
-    elif "que es para ti perlita" in texto:
-        resp = random.choice(respuestas_perlita)
-    elif "que es para ti sra puff" in texto or "que es para ti puff" in texto:
-        resp = random.choice(respuestas_sra_puff)
-    elif "que es para ti larry" in texto:
-        resp = random.choice(respuestas_larry)
-    elif "que es para ti holandes" in texto:
-        resp = random.choice(respuestas_holandes)
-    elif "que es para ti gary" in texto:
-        resp = random.choice(respuestas_gary_n)
-    elif "que es para ti sireno" in texto:
-        resp = random.choice(respuestas_sireno)
-    elif "que es para ti chico percebe" in texto:
-        resp = random.choice(respuestas_chico)
-    elif "que es para ti cangreburger" in texto:
-        resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3)
-
-    elif "patricio" in texto: resp = random.choice(respuestas_patricio)
-    elif "calamardo" in texto: resp = random.choice(respuestas_calamardo)
-    elif "arenita" in texto: resp = random.choice(respuestas_arenita)
-    elif "don cangrejo" in texto or "cangrejo" in texto and "burger" not in texto: resp = random.choice(respuestas_don_cangrejo_n)
-    elif "plankton" in texto: resp = random.choice(respuestas_plankton_n)
-    elif "perlita" in texto: resp = random.choice(respuestas_perlita)
-    elif "sra puff" in texto or "puff" in texto: resp = random.choice(respuestas_sra_puff)
-    elif "larry" in texto: resp = random.choice(respuestas_larry)
-    elif "holandes" in texto: resp = random.choice(respuestas_holandes)
-    elif "gary" in texto: resp = random.choice(respuestas_gary_n)
-    elif "piña" in texto or "pina" in texto: resp = random.choice(respuestas_pina)
-    elif "roca" in texto: resp = random.choice(respuestas_roca)
-    elif "balde" in texto: resp = random.choice(respuestas_balde)
-    elif "formula" in texto: resp = random.choice(respuestas_formula)
-    elif "medusa" in texto: resp = random.choice(respuestas_medusas)
-    elif "karate" in texto: resp = random.choice(respuestas_karate)
-    elif "burbuja" in texto: resp = random.choice(respuestas_burbujas)
-    elif "guante" in texto: resp = random.choice(respuestas_glove)
-    elif "goo" in texto: resp = random.choice(respuestas_goo)
-    elif "chocolate" in texto: resp = random.choice(respuestas_chocolate_n)
-    elif "pierna" in texto: resp = random.choice(respuestas_pierna)
-    elif "cacahuate" in texto: resp = random.choice(respuestas_cacahuate)
-    elif "imaginacion" in texto: resp = random.choice(respuestas_imaginacion_n)
-    elif "estoy listo" in texto: resp = random.choice(respuestas_listo)
-    elif "dona" in texto: resp = random.choice(respuestas_dona)
-    elif "tartar" in texto: resp = random.choice(respuestas_tartar)
-    elif "mejor dia" in texto: resp = random.choice(respuestas_mejor_dia)
-    elif "kevin" in texto: resp = random.choice(respuestas_kevin)
-    elif "neptuno" in texto: resp = random.choice(respuestas_neptuno)
-    elif "barnaculo" in texto: resp = random.choice(respuestas_barnaculo)
-    elif "sireno" in texto: resp = random.choice(respuestas_sireno)
-    elif "percebe" in texto: resp = random.choice(respuestas_chico)
-    elif "el mal" in texto: resp = random.choice(respuestas_mal)
-    elif "cangreburger" in texto: resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3 + respuestas_mucha_cangre)
-    elif "crustaceo" in texto or "cascarudo" in texto: resp = random.choice(respuestas_fondo_cangre)
-    
     respuestas_medusas = [
         f"¡Sí! ¡Claro que puedes acompañarme {message.author.name}! ¡Vamos a cazar medusas! 🪼",
         f"¡Estoy listo! ¡Estoy listo! ¡Vamos a cazar medusas juntos {message.author.name}! 🪼✨",
@@ -1211,16 +1147,79 @@ async def on_message(message):
             resp = random.choice(respuestas_carita_triste)
         elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
             resp = random.choice(respuestas_hola)
-        else:
-            resp = random.choice(respuestas_random)
-
-        uid = message.author.id
-        ultima = ultimas_respuestas.get(uid)
+            # --- PREGUNTAS DE ROL ---
+    elif any(x in texto for x in ["dame la formula", "me das la formula", "formula secreta", "cual es la formula", "dime la formula"]):
+        resp = random.choice(respuestas_formula)
+    elif any(x in texto for x in ["como esta patricio", "cómo está patricio", "donde esta patricio", "que hace patricio"]):
+        resp = random.choice(respuestas_patricio)
+    elif any(x in texto for x in ["como esta calamardo", "cómo está calamardo", "donde esta calamardo"]):
+        resp = random.choice(respuestas_calamardo)
+    elif any(x in texto for x in ["como esta arenita", "donde esta arenita"]):
+        resp = random.choice(respuestas_arenita)
+    elif any(x in texto for x in ["como esta gary", "donde esta gary", "que hace gary"]):
+        resp = random.choice(respuestas_gary_n)
+    elif any(x in texto for x in ["como esta don cangrejo", "donde esta don cangrejo"]):
+        resp = random.choice(respuestas_don_cangrejo_n)
+    elif any(x in texto for x in ["como esta plankton", "donde esta plankton", "que hace plankton"]):
+        resp = random.choice(respuestas_plankton_n)
+    elif any(x in texto for x in ["donde esta la cangreburger", "quiero una cangreburger", "me das una cangreburger", "tienes cangreburgers"]):
+        resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3)
+    elif any(x in texto for x in ["estoy listo", "estoy listo estoy listo"]):
+        resp = random.choice(respuestas_listo)
+    elif any(x in texto for x in ["donde vives", "donde esta fondo de bikini", "donde esta tu casa"]):
+        resp = random.choice(respuestas_pina)
+    # --- PERSONAJES NORMALES ---
+    elif "patricio" in texto: resp = random.choice(respuestas_patricio)
+    elif "calamardo" in texto: resp = random.choice(respuestas_calamardo)
+    elif "arenita" in texto: resp = random.choice(respuestas_arenita)
+    elif "plankton" in texto: resp = random.choice(respuestas_plankton_n)
+    elif "gary" in texto: resp = random.choice(respuestas_gary_n)
+    elif "don cangrejo" in texto or "cangrejo" in texto and "burger" not in texto: resp = random.choice(respuestas_don_cangrejo_n)
+    elif "perlita" in texto: resp = random.choice(respuestas_perlita)
+    elif "sra puff" in texto or "puff" in texto: resp = random.choice(respuestas_sra_puff)
+    elif "larry" in texto: resp = random.choice(respuestas_larry)
+    elif "holandes" in texto: resp = random.choice(respuestas_holandes)
+    elif "piña" in texto or "pina" in texto: resp = random.choice(respuestas_pina)
+    elif "roca" in texto: resp = random.choice(respuestas_roca)
+    elif "balde" in texto: resp = random.choice(respuestas_balde)
+    elif "formula" in texto: resp = random.choice(respuestas_formula)
+    elif "medusa" in texto: resp = random.choice(respuestas_medusas)
+    elif "karate" in texto: resp = random.choice(respuestas_karate)
+    elif "burbuja" in texto: resp = random.choice(respuestas_burbujas)
+    elif "guante" in texto: resp = random.choice(respuestas_glove)
+    elif "goo" in texto: resp = random.choice(respuestas_goo)
+    elif "chocolate" in texto: resp = random.choice(respuestas_chocolate_n)
+    elif "pierna" in texto: resp = random.choice(respuestas_pierna)
+    elif "cacahuate" in texto: resp = random.choice(respuestas_cacahuate)
+    elif "imaginacion" in texto: resp = random.choice(respuestas_imaginacion_n)
+    elif "dona" in texto: resp = random.choice(respuestas_dona)
+    elif "tartar" in texto: resp = random.choice(respuestas_tartar)
+    elif "mejor dia" in texto: resp = random.choice(respuestas_mejor_dia)
+    elif "kevin" in texto: resp = random.choice(respuestas_kevin)
+    elif "neptuno" in texto: resp = random.choice(respuestas_neptuno)
+    elif "barnaculo" in texto: resp = random.choice(respuestas_barnaculo)
+    elif "sireno" in texto: resp = random.choice(respuestas_sireno)
+    elif "percebe" in texto: resp = random.choice(respuestas_chico)
+    elif "el mal" in texto: resp = random.choice(respuestas_mal)
+    elif "cangreburger" in texto: resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3 + respuestas_mucha_cangre)
+    elif "crustaceo" in texto or "cascarudo" in texto: resp = random.choice(respuestas_fondo_cangre)
+    elif "?" in texto:
+        resp = random.choice([
+            f"¡Buena pregunta {message.author.name}! ¡Patricio tampoco sabe! 🤔",
+            f"¡{message.author.name}! ¡Eso es un misterio de Fondo de Bikini! 🕵️",
+            f"¡Pregúntale a Gary! ¡Miau! 🐌"
+        ])
+    else:
+        resp = random.choice(respuestas_random)
+    uid = message.author.id
+    ultima = ultimas_respuestas.get(uid)
+    # solo evita repetir si es del mismo grupo random, no de personajes
+    if resp in respuestas_random:
         while resp == ultima and len(respuestas_random) > 1:
             resp = random.choice(respuestas_random)
-        ultimas_respuestas[uid] = resp
-        await message.channel.send(resp)
-        return
+    ultimas_respuestas[uid] = resp
+    await message.channel.send(resp)
+    return
 ya_sincronizado = False
 
 @bot.event
