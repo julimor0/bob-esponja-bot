@@ -1050,22 +1050,113 @@ async def on_message(message):
         f"¡Santa madre de Gary! ¡{texto_original_full}! ¡Qué locura!",
         f"¡Patricio, {texto_original_full}! ¿Qué opinas? ⭐",
     ]
-    respuestas_triste = [
-        f"Oh no {message.author.name}... ¿Estás triste? Ven, te doy un abrazo muy fuerte 🤗💛",
-        f"No estés triste {message.author.name}, mañana será un día mejor y yo estaré aquí contigo 💛",
-        f"{message.author.name}, si tú estás triste yo también me pongo triste... ¿Te regalo una sonrisa? 😊",
-    ]
-    respuestas_me_siento_mal = [
-        f"{message.author.name}, lamento que te sientas así... Quiero que sepas que eres muy importante para mí 💛",
-        f"No me gusta verte así {message.author.name}... ¿Quieres que me quede aquí contigo un ratito? 🍍",
-        f"Está bien sentirse mal a veces {message.author.name}, no tienes que ser fuerte todo el tiempo. Te acompaño 🤗",
-        f"Te mando un abrazo de Gary 🐌💛 Todo va a estar bien, te lo prometo",
-    ]
-    respuestas_bonito = [
-        f"¡Qué lindo eres {message.author.name}! Me hiciste muy feliz con eso 🥺💛",
-        f"Aww {message.author.name} ¡Tú también eres increíble! Gracias por ser tan amable 💛",
-        f"¡Me hiciste sonrojar {message.author.name}! 🥰 Eres el mejor amigo de Fondo de Bikini",
-    ]
+        # --- PARTE 1 - MEGA PACK ---
+    respuestas_patricio = [f"¡PATRICIOOO {message.author.name}! ¡Mi mejor amigo! ⭐💛", f"¡Patricio estrella {message.author.name}! ¡Brilla! ⭐✨", f"¡No, esto es Patricio! 🪨 {message.author.name} ¡Jajaja! 😂", f"¡Patricio ¿Es mayonesa un instrumento? 🥜 {message.author.name}!", f"¡Patricio y yo medusas {message.author.name}! ¡Estoy listo! 🪼⭐🙋‍♂️", f"¡Patricio roca y yo piña {message.author.name}! 🪨🍍👯‍♂️", f"¡Patricio se comió mi dona {message.author.name}! 🍩⭐", f"¡Yo wumbo tú wumbo {message.author.name}! ⭐📚"]
+    respuestas_calamardo = [f"¡CALAMARDOOO {message.author.name}! ¡Hola vecino! 🗿💛", f"¡Calamardo clarinete {message.author.name}! ¡Piii! 🎶🗿", f"¡Otra vez Bob Esponja! {message.author.name} ¡Sí soy yo! 🗿🧽😂", f"¡Calamardo artista {message.author.name}! ¡Fan #1! 🎨🗿👏", f"¡Casa Moai elegante {message.author.name}! 🗿🏛️", f"¡Calamardo gruñón pero lo quiero {message.author.name}! 🗿💛", f"¡Calamardo famoso {message.author.name}! 🌟🗿", f"¡Vecino Calamardo {message.author.name}! ¡Vamos a jugar! 🗿🧽"]
+    respuestas_arenita = [f"¡ARENITAAA {message.author.name}! ¡YEE-HAW! 🐿️🤠", f"¡Karate con Arenita {message.author.name}! ¡HI-YA! 🐿️🥋🙋‍♂️", f"¡Arenita inventa cohetes {message.author.name}! 🚀🐿️", f"¡Arenita la más fuerte {message.author.name}! 💪🐿️", f"¡Arenita domo con aire {message.author.name}! 🌳🤠", f"¡Yee-haw y Estoy listo {message.author.name}! 🤠🙋‍♂️", f"¡Arenita me ganó karate {message.author.name}! 🐿️🥋😅", f"¡Arenita astronauta {message.author.name}! 👨‍🚀🐿️✨"]
+    respuestas_don_cangrejo_n = [f"¡DON CANGREJO {message.author.name}! ¡Mi jefe! 💰🦀", f"¡Don Cangrejo dinero {message.author.name}! ¡Yo CangreBurgers! 💰🍔", f"¡Dinero dinero dice {message.author.name}! 💰🙋‍♂️", f"¡Trabajo en Crustáceo {message.author.name}! ¡El mejor! 🍔🏪", f"¡Ancla fuerte {message.author.name}! ⚓🦀", f"¡Fórmula secreta jefe {message.author.name}! 🤫💰🍔", f"¡Cuenta monedas {message.author.name}! 💰😵‍💫", f"¡Jefe tacañito pero lo quiero {message.author.name}! 🦀💛"]
+    respuestas_plankton_n = [f"¡PLANKTON {message.author.name}! ¡Chiquito! 🦠🍔", f"¡Plankton y Karen {message.author.name}! 🦠💻💕", f"¡Maldito Cangrejo dice {message.author.name}! 🦠😂", f"¡Quiere ser grande {message.author.name}! 🦠🙋‍♂️", f"¡Falló otra vez {message.author.name}! 🦠🍔💛", f"¡Vive en Balde solito {message.author.name}! 🪣🧽", f"¡Karen ¡Oh Plankton! {message.author.name} 💻😂", f"¡Corazón grandote {message.author.name}! 🦠💛🐌"]
+    respuestas_perlita = [f"¡PERLITAAA {message.author.name}! ¡Ballena cool! 🐳💅✨", f"¡Perlita de compras {message.author.name}! 🐳🛍️💰", f"¡Perlita canta {message.author.name}! 🐳🎤💛", f"¡Perlita y papá Cangrejo {message.author.name}! 🐳🦀💛", f"¡Perlita gigante tierna {message.author.name}! 🐳🧸💛", f"¡Fiesta ballena {message.author.name}! 🐳🎉", f"¡Perlita adolescente cool {message.author.name}! 🐳😎", f"¡Perlita centro comercial {message.author.name}! 🐳🏬"]
+    respuestas_sra_puff = [f"¡SRA PUFF {message.author.name}! ¡Perdón choqué! 🚤💥🥺", f"¡Sra Puff globo {message.author.name}! 🎈🚤😂", f"¡Respira Bob dice {message.author.name}! 🚤🫁🙋‍♂️", f"¡Maestra favorita {message.author.name}! 🚤💛", f"¡Me reprobó otra vez {message.author.name}! 🚤😭", f"¡Bote bonito {message.author.name}! 🚤✨", f"¡Te quiero maestra {message.author.name}! 🚤💛📚", f"¡Voy a pasar examen {message.author.name}! 🚤🙋‍♂️"]
+    respuestas_larry = [f"¡LARRY {message.author.name}! ¡Músculos! 🦞💪", f"¡Vive como Larry {message.author.name}! 🦞🙋‍♂️", f"¡Salvavidas Goo Lagoon {message.author.name}! 🦞🏖️", f"¡Músculos espagueti {message.author.name}! 🦞🧽😂", f"¡Levanta pesas {message.author.name}! 🏋️🦞", f"¡Héroe musculoso {message.author.name}! 🦞🦸‍♂️", f"¡Vamos a entrenar {message.author.name}! 🏋️🙋‍♂️", f"¡Bronceado cool {message.author.name}! 🦞☀️😎"]
+    respuestas_holandes = [f"¡HOLANDÉS {message.author.name}! ¡BOOO! 👻😂", f"¡Barco fantasma {message.author.name}! 👻🚢", f"¡Soy el Holandés {message.author.name}! 👻🧽", f"¡Amigo fantasma {message.author.name}! 👻💛", f"¡BOOO me asusté {message.author.name}! 👻😅", f"¡Tesoro sustos {message.author.name}! 👻💰", f"¡Nadie escapa dice {message.author.name}! 👻🫧", f"¡Barba verde {message.author.name}! 👻🧔💚"]
+    respuestas_gary_n = [f"¡GARYYYY {message.author.name}! ¡Mi bebé! 🐌💛💛💛", f"¡Gary se escondió {message.author.name}! 🔍🐌", f"¡Gary miau te quiero {message.author.name}! 🐌💛", f"¡Gary lee libros {message.author.name}! 📚🐌", f"¡Gary come ñam ñam {message.author.name}! 🐌🍽️💛", f"¡Mochilita caparazón {message.author.name}! 🐌🎒✨", f"¡No te vayas Gary {message.author.name}! 🐌😭", f"¡Equipo caracol esponja {message.author.name}! 🐌🧽👯‍♂️", f"¡Gary duerme tierno {message.author.name}! 😴🐌💛", f"¡Gary precioso {message.author.name}! ¡El mejor! 🐌👑💛"]
+        # --- PARTE 2 - Lugares y Cosas ---
+    respuestas_pina = [f"¡Mi piña {message.author.name}! ¡Ven te invito! 🍍🏠💛", f"¡Piña debajo del mar {message.author.name}! 🍍🧽", f"¡Piña naranja sol {message.author.name}! 🍍☀️", f"¡Ventana piña hola {message.author.name}! 🍍👋🧽", f"¡3 cuartos piña {message.author.name}! 🍍🐌🧽", f"¡Amo mi piña hogar {message.author.name}! 🍍🏠💛", f"¡Piña brilla noche {message.author.name}! 🍍🌟", f"¡Piña y CangreBurger {message.author.name}! 🍍🍔💛"]
+    respuestas_roca = [f"¡Roca Patricio {message.author.name}! ¡No es Bikini es Patricio! 🪨⭐😂", f"¡Roca se abre {message.author.name}! ¡Ahí está! 🪨👀", f"¡Roca sin nada {message.author.name}! ¡Solo palito! 🪨", f"¡Roca de mi amigo {message.author.name}! 🪨⭐💛", f"¡Toca roca Patricio {message.author.name}! 🪨🔔⭐"]
+    respuestas_balde = [f"¡Balde Carnada puaj {message.author.name}! 🪣🤢", f"¡Nadie va al Balde {message.author.name}! 🪣🤮", f"¡Balde vacío {message.author.name}! 🪣😂", f"¡Balde solito {message.author.name}! 🪣🧽💛", f"¡Huele a calcetín {message.author.name}! 🪣🧦😂"]
+    respuestas_formula = [f"¡Fórmula secreta {message.author.name}! ¡Lleva amor! 🤫💛🍔", f"¡Caja fuerte escondida {message.author.name}! 🔒🍔", f"¡Plankton no la tendrá {message.author.name}! 🤫🦠", f"¡Fórmula con Gary {message.author.name}! 🤫🐌💛", f"¡Secreto de jefes {message.author.name}! 🤫💰"]
+    respuestas_medusas = [f"¡MEDUSAS {message.author.name}! ¡A cazar! ¡Listo! 🪼🙋‍♂️", f"¡Campo Medusas favorito {message.author.name}! 🪼⭐", f"¡Medusita rosa te quiero {message.author.name}! 🪼💗💛", f"¡Medusas bailando brillan {message.author.name}! 🪼✨💃", f"¡Picadura auch pero feliz {message.author.name}! 🪼😅💛", f"¡Reina medusas gigante {message.author.name}! 👑🪼", f"¡Red lista vamos {message.author.name}! 🪼🪤⭐", f"¡Medusas woo woo {message.author.name}! 🪼🎶"]
+    respuestas_karate = [f"¡KARATE {message.author.name}! ¡HI-YA! 🥋🐿️", f"¡Karate con Arenita {message.author.name}! 🐿️🥋💛", f"¡Patada voladora {message.author.name}! 🥋💥", f"¡Cinturón burbuja {message.author.name}! 🥋🫧", f"¡Chop chop {message.author.name}! 🥋✂️", f"¡Karate feliz sonrisa {message.author.name}! 🥋😊💛", f"¡Karate y medusas {message.author.name}! 🪼🥋", f"¡HI-YA Bob {message.author.name}! 🙋‍♂️🥋✨"]
+    respuestas_burbujas = [f"¡BURBUJAS {message.author.name}! ¡Patito elefante! 🫧🦆🐘", f"¡Burbujas bonitas amor {message.author.name}! 🫧💛", f"¡Burbujas gigantes {message.author.name}! 🫧✨", f"¡Burbujas amistad regalo {message.author.name}! 🫧💛🎁", f"¡Mi hobby burbujas {message.author.name}! 🫧🧽", f"¡Burbujas corazón para ti {message.author.name}! 🫧💕", f"¡Burbujas colores arcoíris {message.author.name}! 🌈🫧", f"¡Pop burbuja {message.author.name}! 🫧💥😂"]
+    respuestas_glove = [f"¡GUANTE WORLD {message.author.name}! ¡Vamos! 🎢🧤", f"¡Montaña rusa guantes {message.author.name}! 🎢🧤😲", f"¡Guante World divertido {message.author.name}! 🎢⭐🧽", f"¡Guante World helado guante {message.author.name}! 🍦🧤", f"¡Luces Guante World {message.author.name}! 🎢✨🧤", f"¡Mi favorito después Crustáceo {message.author.name}! 🏪🎢💛", f"¡Gorrito guante {message.author.name}! 🧢🧤😂", f"¡Gritos yuju Guante World {message.author.name}! 🎢📢😊"]
+    respuestas_goo = [f"¡GOO LAGOON {message.author.name}! ¡Playa! 🏖️☀️", f"¡Goo Lagoon lodo Goo {message.author.name}! 🏖️😂", f"¡Larry en Goo Lagoon {message.author.name}! 🦞🏖️", f"¡Castillos arena Patricio {message.author.name}! 🏖️🏰⭐", f"¡Sol me quemo esponja {message.author.name}! ☀️🧽😂", f"¡Helado alga {message.author.name}! 🍦🏖️", f"¡Medusas en playa {message.author.name}! 🏖️🪼", f"¡Mi playa favorita {message.author.name}! 🏖️💛🧽"]
+    respuestas_chocolate_n = [f"¡CHOCOLATE {message.author.name}! ¡CHOCOLATEEE! 🍫😍", f"¡Chocolate cacahuate ñam {message.author.name}! 🥜🍫", f"¡Patricio ama chocolate {message.author.name}! 🍫⭐", f"¡Chocolate gigante {message.author.name}! 🍫😲", f"¡CHOCOLATE grito Patricio {message.author.name}! 📢🍫", f"¡Chocolate oscuro blanco {message.author.name}! 🍫🤍🤎", f"¡Chocolate se derrite {message.author.name}! 🍫🏖️☀️", f"¡Chocolate con Gary miau {message.author.name}! 🐌🍫💛"]
+        # --- PARTE 3 - Frases épicas ---
+    respuestas_pierna = [f"¡MI PIERNA {message.author.name}! 🦵😱", f"¡Fred MI PIERNA siempre {message.author.name}! 🦵📢😂", f"¡Me caí pierna {message.author.name}! 🦵😅", f"¡Pierna baila {message.author.name}! 🦵💃", f"¡MI PIERNA y ESTOY LISTO {message.author.name}! 🦵🙋‍♂️", f"¡Pierna esponja estira {message.author.name}! 🦵🧽✨", f"¡Corriendo medusas pierna {message.author.name}! 🦵🪼🏃‍♂️", f"¡Pierna feliz contigo {message.author.name}! 🦵👯‍♂️💛"]
+    respuestas_cacahuate = [f"¡SOY UN CACAHUATE {message.author.name}! 🥜😂", f"¡Cacahuate power {message.author.name}! 🥜✨", f"¡Cacahuate chocolate mejor {message.author.name}! 🥜🍫", f"¡Cacahuate salado mar {message.author.name}! 🥜🌊", f"¡Cacahuate gigante Patricio {message.author.name}! 🥜⭐", f"¡Cacahuate chiquito Plankton {message.author.name}! 🥜🦠", f"¡Cacahuate feliz saltando {message.author.name}! 🥜😊", f"¡Equipo cacahuate Bob {message.author.name}! 🥜🧽👯‍♂️"]
+    respuestas_imaginacion_n = [f"¡IMAGINACIÓN {message.author.name}! 🌈✨", f"¡Con imaginación todo {message.author.name}! 🌈💭", f"¡Arcoíris imaginación {message.author.name}! 🌈👀", f"¡Puedo volar avión {message.author.name}! ✈️🌈", f"¡Imaginación burbujas mejor {message.author.name}! 🌈🫧", f"¡Colores imaginación {message.author.name}! 🌈🎨", f"¡Sin fin amistad {message.author.name}! 🌈♾️💛", f"¡Gary miau imaginación {message.author.name}! 🐌🌈💭"]
+    respuestas_listo = [f"¡ESTOY LISTO {message.author.name}! ¡ESTOY LISTO! 🙋‍♂️✨", f"¡Estoy listo siempre {message.author.name}! 🙋‍♂️💛", f"¡ESTOY LISTOOO fuerte {message.author.name}! 🔊🧽", f"¡Estoy listo tristeza te vas {message.author.name}! 🥺🍍", f"¡Listo trabajo Crustáceo {message.author.name}! 🍔🏪🙋‍♂️", f"¡Listo medusas {message.author.name}! 🪼🙋‍♂️", f"¡Listo karate {message.author.name}! 🥋🙋‍♂️", f"¡Listo burbujas {message.author.name}! 🫧🙋‍♂️", f"¡Listo CangreBurgers {message.author.name}! 🍔🙋‍♂️", f"¡Listo y feliz {message.author.name}! 😊🙋‍♂️✨"]
+    respuestas_dona = [f"¡Mi dona chocolate {message.author.name}! ¡Patricio se la comió! 🍩⭐😭", f"¡Dona glaseada chispas {message.author.name}! 🍩✨", f"¡Quiero mi dona {message.author.name}! ¡Devuélvela Patricio! 🍩⭐", f"¡Dona de Bob {message.author.name}! ¡Mi favorita! 🍩💛🧽", f"¡Dona con amor {message.author.name}! 🍩💛"]
+    respuestas_tartar = [f"¡Tartar salsa {message.author.name}! ¡Mala palabra! 🤬🤐", f"¡No digas tartar salsa {message.author.name}! 🤬", f"¡Shhh delfines escuchan {message.author.name}! 🐬🤐😂", f"¡Dijiste tartar {message.author.name}! ¡Ohhh! 🤐", f"¡Tartar salsa no se dice {message.author.name}! 🤬💛"]
+    respuestas_mejor_dia = [f"¡Mejor día de todos {message.author.name}! ¡Sol sonrió! ☀️🎶💛", f"¡Hoy mejor día {message.author.name}! ¡Como siempre! ☀️🧽", f"¡Mejor día con Patricio Gary {message.author.name}! ☀️⭐🐌", f"¡El mejor día contigo {message.author.name}! ☀️👯‍♂️💛", f"¡Mejor día canción {message.author.name}! 🎶☀️🧽"]
+    respuestas_kevin = [f"¡KEVIN pepino inteligente {message.author.name}! 🥒🧠", f"¡Kevin presumido {message.author.name}! 🥒😏", f"¡Club pepinos Kevin {message.author.name}! 🥒🤓", f"¡Hola Kevin {message.author.name}! ¡Quiero ser tu club! 🥒🥺💛", f"¡Pepino Kevin cool {message.author.name}! 🥒✨"]
+    respuestas_neptuno = [f"¡REY NEPTUNO {message.author.name}! ¡Rey del mar! 👑🔱", f"¡Tridente poderoso {message.author.name}! 🔱👑💪", f"¡Neptuno calvo shhh {message.author.name}! 👑😂", f"¡Por poder Neptuno {message.author.name}! 👑🔱✨", f"¡Neptuno calzones rosas {message.author.name}! 👑👙😂"]
+    respuestas_barnaculo = [f"¡Oh barnáculo {message.author.name}! ¡Problemas! 🤬🧽", f"¡Oh barnáculo Fred y yo {message.author.name}! 🤬", f"¡Barnáculo no puedo {message.author.name}! 🤬😂", f"¡Dije barnáculo {message.author.name}! 🤐🤬", f"¡Oh barnáculo feliz {message.author.name}! 🤬✨😊"]
+        # --- PARTE 4 - Héroes + CangreBurgers ---
+    respuestas_sireno = [f"¡SIRENO MAN {message.author.name}! ¡Mi héroe! ¡EVIL! 🦸‍♂️👴✨", f"¡Sireno Man Chico Percebe ídolos {message.author.name}! 🦸‍♂️👓💛", f"¡A la baticueva Sireno {message.author.name}! 🦸‍♂️🏪", f"¡Sireno viejito fuerte {message.author.name}! 🦸‍♂️💪👴", f"¡El bien gana {message.author.name}! 💛🦸‍♂️", f"¡Capa toalla Sireno {message.author.name}! 🦸‍♂️🧽😂", f"¡Cinturón ZAP BAM {message.author.name}! 💥🦸‍♂️", f"¡Firma mi espátula {message.author.name}! 🦸‍♂️✍️🍳", f"¡EL MAL detener {message.author.name}! 🦹‍♂️🦸‍♂️", f"¡Asilo héroes cool {message.author.name}! 🦸‍♂️🏠👴"]
+    respuestas_chico = [f"¡CHICO PERCEBE {message.author.name}! ¡Compañero Sireno! 👓🦸‍♂️⭐💛", f"¡Chico lentes inteligente {message.author.name}! 👓🧠", f"¡Sireno Man mira dice {message.author.name}! 👓⭐", f"¡Chico joven como yo {message.author.name}! 👓🙋‍♂️", f"¡Equipo super como nosotros {message.author.name}! 👓🦸‍♂️🧽⭐", f"¡Me saludó Chico {message.author.name}! 👓💛😊", f"¡Gorrito bonito Chico {message.author.name}! 👓🧢✨", f"¡Lucha contra mal {message.author.name}! 🦹‍♂️👓🦸‍♂️", f"¡EVIL dice también {message.author.name}! 👓😂", f"¡Mejor ayudante {message.author.name}! 👓🏆💛"]
+    respuestas_mal = [f"¡EL MAAAAL {message.author.name}! ¡Detener mal! 🦸‍♂️🦹‍♂️🙋‍♂️", f"¡EVIL grita Sireno {message.author.name}! 🦸‍♂️😂💛", f"¡Mal nunca gana {message.author.name}! 🦸‍♂️🦹‍♂️💛", f"¡EL MAL con Sireno {message.author.name}! 🦸‍♂️🦹‍♂️✨", f"¡Vamos contra EL MAL {message.author.name}! ¡Listo! 🦹‍♂️🙋‍♂️"]
+    respuestas_cangre_extra1 = [f"¡CANGREBURGER {message.author.name}! ¡Con amor Bob! 🍔💛🧽✨", f"¡Calientita recién salida {message.author.name}! 🍔🔥💛", f"¡Con queso se derrite {message.author.name}! 🍔🧀😊", f"¡Mejor del océano yo mero {message.author.name}! 🍔🙋‍♂️", f"¡Doble con pepinillos {message.author.name}! 🍔🥒", f"¡Otra y otra no paro {message.author.name}! 🍔🍔🍔", f"¡Para mi amigo extra Bob {message.author.name}! 🍔🧽✨", f"¡Cantando CangreBurger {message.author.name}! 🎶🍔"]
+    respuestas_cangre_extra2 = [f"¡Gigante más grande piña {message.author.name}! 🍔🍍😲", f"¡20 como Patricio {message.author.name}! 🍔⭐", f"¡Colores arcoíris {message.author.name}! 🌈🍔", f"¡Medianoche amor nocturno {message.author.name}! 🌙🍔", f"¡Picante karate {message.author.name}! 🍔🔥🥋", f"¡Dorada brilla espátula {message.author.name}! 🍔✨🍳", f"¡Voladora burbujas {message.author.name}! 🍔🫧", f"¡Sorpresa tiene amor {message.author.name}! 🍔🎁💛"]
+    respuestas_cangre_extra3 = [f"¡Fórmula amor amistad {message.author.name}! 🤫💛🍔", f"¡100 Estoy listo {message.author.name}! 🙋‍♂️🍔", f"¡Sin CangreBurgers no hay Bob {message.author.name}! 🍔🧽💛", f"¡Amor ingrediente secreto {message.author.name}! 💛🍔", f"¡Para Fondo Bikini invito {message.author.name}! 🍔🌊💰😂", f"¡Y refresco sonrisa gratis {message.author.name}! 🍔🥤😊", f"¡Manitas cuadradas hice {message.author.name}! 🍔🧽👋", f"¡Perfecta redonda feliz {message.author.name}! 🍔😊🧽"]
+    respuestas_mucha_cangre = [f"¡MONTAÑA CANGREBURGERS {message.author.name}! 🍔⛰️🤤", f"¡Lluvia CangreBurgers abre boca {message.author.name}! 🍔🌧️😋", f"¡Muchas fiesta {message.author.name}! 🍔🍔🎉💛", f"¡Por todos lados piña cama corazón {message.author.name}! 🍍💛🍔", f"¡Infinita amistad {message.author.name}! 🍔♾️💛🧽", f"¡Desayuno comida cena {message.author.name}! 🍔🌅🌙", f"¡Extra todo extra Bob {message.author.name}! 🍔✨🧽💛", f"¡Volando medusas burgers {message.author.name}! 🍔🪼😂"]
+    respuestas_fondo_cangre = [f"¡Crustáceo Cascarudo casa {message.author.name}! 🍔🏪💛🙋‍♂️", f"¡Huele a CangreBurger felicidad {message.author.name}! 🍔👃💛", f"¡Mi segundo hogar parrilla {message.author.name}! 🍔🏠", f"¡Crustáceo solo CangreBurgers {message.author.name}! 🍔🏪", f"¡Crustáceo brilla {message.author.name}! 🍔✨🏪"]
+
+    # --- PREGUNTAS CON RANDOM - PEGALO AL FINAL DE TODO ---
+    if "que es para ti patricio" in texto or "quien es patricio" in texto:
+        resp = random.choice(respuestas_patricio)
+    elif "que es para ti calamardo" in texto:
+        resp = random.choice(respuestas_calamardo)
+    elif "que es para ti arenita" in texto:
+        resp = random.choice(respuestas_arenita)
+    elif "que es para ti don cangrejo" in texto or "que es para ti cangrejo" in texto and "burger" not in texto:
+        resp = random.choice(respuestas_don_cangrejo_n)
+    elif "que es para ti plankton" in texto:
+        resp = random.choice(respuestas_plankton_n)
+    elif "que es para ti perlita" in texto:
+        resp = random.choice(respuestas_perlita)
+    elif "que es para ti sra puff" in texto or "que es para ti puff" in texto:
+        resp = random.choice(respuestas_sra_puff)
+    elif "que es para ti larry" in texto:
+        resp = random.choice(respuestas_larry)
+    elif "que es para ti holandes" in texto:
+        resp = random.choice(respuestas_holandes)
+    elif "que es para ti gary" in texto:
+        resp = random.choice(respuestas_gary_n)
+    elif "que es para ti sireno" in texto:
+        resp = random.choice(respuestas_sireno)
+    elif "que es para ti chico percebe" in texto:
+        resp = random.choice(respuestas_chico)
+    elif "que es para ti cangreburger" in texto:
+        resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3)
+
+    elif "patricio" in texto: resp = random.choice(respuestas_patricio)
+    elif "calamardo" in texto: resp = random.choice(respuestas_calamardo)
+    elif "arenita" in texto: resp = random.choice(respuestas_arenita)
+    elif "don cangrejo" in texto or "cangrejo" in texto and "burger" not in texto: resp = random.choice(respuestas_don_cangrejo_n)
+    elif "plankton" in texto: resp = random.choice(respuestas_plankton_n)
+    elif "perlita" in texto: resp = random.choice(respuestas_perlita)
+    elif "sra puff" in texto or "puff" in texto: resp = random.choice(respuestas_sra_puff)
+    elif "larry" in texto: resp = random.choice(respuestas_larry)
+    elif "holandes" in texto: resp = random.choice(respuestas_holandes)
+    elif "gary" in texto: resp = random.choice(respuestas_gary_n)
+    elif "piña" in texto or "pina" in texto: resp = random.choice(respuestas_pina)
+    elif "roca" in texto: resp = random.choice(respuestas_roca)
+    elif "balde" in texto: resp = random.choice(respuestas_balde)
+    elif "formula" in texto: resp = random.choice(respuestas_formula)
+    elif "medusa" in texto: resp = random.choice(respuestas_medusas)
+    elif "karate" in texto: resp = random.choice(respuestas_karate)
+    elif "burbuja" in texto: resp = random.choice(respuestas_burbujas)
+    elif "guante" in texto: resp = random.choice(respuestas_glove)
+    elif "goo" in texto: resp = random.choice(respuestas_goo)
+    elif "chocolate" in texto: resp = random.choice(respuestas_chocolate_n)
+    elif "pierna" in texto: resp = random.choice(respuestas_pierna)
+    elif "cacahuate" in texto: resp = random.choice(respuestas_cacahuate)
+    elif "imaginacion" in texto: resp = random.choice(respuestas_imaginacion_n)
+    elif "estoy listo" in texto: resp = random.choice(respuestas_listo)
+    elif "dona" in texto: resp = random.choice(respuestas_dona)
+    elif "tartar" in texto: resp = random.choice(respuestas_tartar)
+    elif "mejor dia" in texto: resp = random.choice(respuestas_mejor_dia)
+    elif "kevin" in texto: resp = random.choice(respuestas_kevin)
+    elif "neptuno" in texto: resp = random.choice(respuestas_neptuno)
+    elif "barnaculo" in texto: resp = random.choice(respuestas_barnaculo)
+    elif "sireno" in texto: resp = random.choice(respuestas_sireno)
+    elif "percebe" in texto: resp = random.choice(respuestas_chico)
+    elif "el mal" in texto: resp = random.choice(respuestas_mal)
+    elif "cangreburger" in texto: resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3 + respuestas_mucha_cangre)
+    elif "crustaceo" in texto or "cascarudo" in texto: resp = random.choice(respuestas_fondo_cangre)
+    
     respuestas_medusas = [
         f"¡Sí! ¡Claro que puedes acompañarme {message.author.name}! ¡Vamos a cazar medusas! 🪼",
         f"¡Estoy listo! ¡Estoy listo! ¡Vamos a cazar medusas juntos {message.author.name}! 🪼✨",
