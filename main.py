@@ -1043,7 +1043,7 @@ async def on_message(message):
         f"¡Oh no {message.author.name}! ¿Por qué esa carita? ¡Te doy un abrazo! 🤗",
         f"¡{message.author.name}! ¿Estás triste? ¡Yo estoy aquí contigo! 💛",
     ]
-        respuestas_random = [
+    respuestas_random = [
         f"¡Jajaja! ¡Eso me recuerda a Patricio! 😃 {message.author.name}",
         f"¡Santa madre de Gary! ¡Qué locura! {message.author.name} 🐌",
         f"¡Imagínate eso en Fondo de Bikini! ✨ {message.author.name}",
