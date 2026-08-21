@@ -164,6 +164,49 @@ async def on_member_join(member):
     except:
         await canal.send(embed=embed)
 
+@bot.event
+async def on_member_remove(member):
+    gid = str(member.guild.id)
+    canal = None
+    if gid in conf_canales and "despedidas" in conf_canales[gid]:
+        canal = bot.get_channel(conf_canales[gid]["despedidas"])
+    if not canal:
+        return
+
+    embed = discord.Embed(
+        title="¡ESTOY TRISTEEEE! 🥜🍍",
+        description=(
+            f"¡¡Se fue **{member.display_name}** de Fondo de Bikini!!\n"
+            f"¡Adiós {member.display_name}! 💛\n"
+            f"¡Ya somos **{member.guild.member_count}** habitantes! 🥺\n\n"
+            f"**Estoy listo tristeza**"
+        ),
+        color=0xFFEB3B
+    )
+    if member.display_avatar:
+        embed.set_thumbnail(url=member.display_avatar.url)
+    embed.set_footer(text=f"{member.guild.name} • ¡Te extrañaré! 🍍")
+
+    await canal.send(content=f"¡¡**{member.display_name}** SE FUE!! 🥜", embed=embed)
+    await canal.send("https://media.tenor.com/2UyENRuvVhsAAAAC/bob-esponja-triste.gif")
+
+@bot.tree.command(name="setdespedidas", description="Pon el canal de despedidas para este server 🍍")
+async def setdespedidas(interaction: discord.Interaction, canal: discord.TextChannel = None):
+    if not interaction.user.guild_permissions.administrator:
+        await interaction.response.send_message("Solo admins 🦀", ephemeral=True)
+        return
+
+    if canal is None:
+        canal = interaction.channel
+
+    gid = str(interaction.guild.id)
+    if gid not in conf_canales:
+        conf_canales[gid] = {}
+    conf_canales[gid]["despedidas"] = canal.id
+    guardar_json(CONF_CANALES_FILE, conf_canales)
+
+    await interaction.response.send_message(f"✅ Despedidas de este server en {canal.mention} 🍍\nAhora cuando alguien se vaya saldrá como en tu foto, con la piña y el *Estoy listo... para la tristeza*")
+
 @bot.tree.command(name="puntos", description="Mira tus CangreBurgers 🍔")
 async def puntos(interaction: discord.Interaction):
     d = get_user_data(interaction.guild.id, interaction.user.id)
