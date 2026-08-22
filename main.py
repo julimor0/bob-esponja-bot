@@ -1149,39 +1149,72 @@ async def on_message(message):
         elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
             resp = random.choice(respuestas_hola)
     # --- PERSONAJES NORMALES ---
-    elif "patricio" in texto: resp = random.choice(respuestas_patricio)
-    elif "calamardo" in texto: resp = random.choice(respuestas_calamardo)
-    elif "arenita" in texto: resp = random.choice(respuestas_arenita)
-    elif "plankton" in texto: resp = random.choice(respuestas_plankton_n)
-    elif "gary" in texto: resp = random.choice(respuestas_gary_n)
-    elif "don cangrejo" in texto or "cangrejo" in texto and "burger" not in texto: resp = random.choice(respuestas_don_cangrejo_n)
-    elif "perlita" in texto: resp = random.choice(respuestas_perlita)
-    elif "sra puff" in texto or "puff" in texto: resp = random.choice(respuestas_sra_puff)
-    elif "larry" in texto: resp = random.choice(respuestas_larry)
-    elif "holandes" in texto: resp = random.choice(respuestas_holandes)
-    elif "piña" in texto or "pina" in texto: resp = random.choice(respuestas_pina)
-    elif "roca" in texto: resp = random.choice(respuestas_roca)
-    elif "balde" in texto: resp = random.choice(respuestas_balde)
-    elif "formula" in texto: resp = random.choice(respuestas_formula)
-    elif "medusa" in texto: resp = random.choice(respuestas_medusas)
-    elif "karate" in texto: resp = random.choice(respuestas_karate)
-    elif "burbuja" in texto: resp = random.choice(respuestas_burbujas)
-    elif "guante" in texto: resp = random.choice(respuestas_glove)
-    elif "goo" in texto: resp = random.choice(respuestas_goo)
-    elif "chocolate" in texto: resp = random.choice(respuestas_chocolate_n)
-    elif "pierna" in texto: resp = random.choice(respuestas_pierna)
-    elif "cacahuate" in texto: resp = random.choice(respuestas_cacahuate)
-    elif "imaginacion" in texto: resp = random.choice(respuestas_imaginacion_n)
-    elif "dona" in texto: resp = random.choice(respuestas_dona)
-    elif "tartar" in texto: resp = random.choice(respuestas_tartar)
-    elif "mejor dia" in texto: resp = random.choice(respuestas_mejor_dia)
-    elif "kevin" in texto: resp = random.choice(respuestas_kevin)
-    elif "neptuno" in texto: resp = random.choice(respuestas_neptuno)
-    elif "barnaculo" in texto: resp = random.choice(respuestas_barnaculo)
-    elif "sireno" in texto: resp = random.choice(respuestas_sireno)
-    elif "percebe" in texto: resp = random.choice(respuestas_chico)
-    elif "el mal" in texto: resp = random.choice(respuestas_mal)
-    elif "crustaceo" in texto or "cascarudo" in texto: resp = random.choice(respuestas_fondo_cangre)
+    elif "patricio" in texto:
+        resp = random.choice(respuestas_patricio)
+    elif "calamardo" in texto:
+        resp = random.choice(respuestas_calamardo)
+    elif "arenita" in texto:
+        resp = random.choice(respuestas_arenita)
+    elif "plankton" in texto:
+        resp = random.choice(respuestas_plankton_n)
+    elif "gary" in texto:
+        resp = random.choice(respuestas_gary_n)
+    elif "don cangrejo" in texto or "cangrejo" in texto:
+        resp = random.choice(respuestas_cangrejo_n)
+    elif "perlita" in texto:
+        resp = random.choice(respuestas_perlita)
+    elif "sra puff" in texto or "puff" in texto:
+        resp = random.choice(respuestas_sra_puff)
+    elif "larry" in texto:
+        resp = random.choice(respuestas_larry)
+    elif "holandes" in texto:
+        resp = random.choice(respuestas_holandes)
+    elif "pina" in texto or "piña" in texto:
+        resp = random.choice(respuestas_pina)
+    elif "roca" in texto:
+        resp = random.choice(respuestas_roca)
+    elif "balde" in texto:
+        resp = random.choice(respuestas_balde)
+    elif "formula" in texto:
+        resp = random.choice(respuestas_formula)
+    elif "medusa" in texto:
+        resp = random.choice(respuestas_medusas)
+    elif "karate" in texto:
+        resp = random.choice(respuestas_karate)
+    elif "burbuja" in texto:
+        resp = random.choice(respuestas_burbujas)
+    elif "guante" in texto:
+        resp = random.choice(respuestas_glove)
+    elif "goo" in texto:
+        resp = random.choice(respuestas_goo)
+    elif "chocolate" in texto:
+        resp = random.choice(respuestas_chocolate_n)
+    elif "pierna" in texto:
+        resp = random.choice(respuestas_pierna)
+    elif "cacahuate" in texto:
+        resp = random.choice(respuestas_cacahuate)
+    elif "imaginacion" in texto:
+        resp = random.choice(respuestas_imaginacion_n)
+    elif "dona" in texto:
+        resp = random.choice(respuestas_dona)
+    elif "tartar" in texto:
+        resp = random.choice(respuestas_tartar)
+    elif "mejor dia" in texto:
+        resp = random.choice(respuestas_mejor_dia)
+    elif "kevin" in texto:
+        resp = random.choice(respuestas_kevin)
+    elif "neptuno" in texto:
+        resp = random.choice(respuestas_neptuno)
+    elif "barnaculo" in texto:
+        resp = random.choice(respuestas_barnaculo)
+    elif "sireno" in texto:
+        resp = random.choice(respuestas_sireno)
+    elif "percebe" in texto:
+        resp = random.choice(respuestas_chico)
+    elif "el mal" in texto:
+        resp = random.choice(respuestas_mal)
+    elif "crustaceo" in texto or "cascarudo" in texto:
+        resp = random.choice(respuestas_fondo_cangre)
     elif "?" in texto:
         resp = random.choice([
             f"¡Buena pregunta {message.author.name}! ¡Patricio tampoco sabe! 🤔",
