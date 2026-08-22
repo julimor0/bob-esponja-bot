@@ -4,6 +4,7 @@ import datetime
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.presences = True
 intents.members = True
 intents.guilds = True
 bot = commands.Bot(command_prefix=["!", "."], intents=intents)
@@ -1002,8 +1003,53 @@ async def on_message(message):
     texto = re.sub(r'<@!?\d+>', '', texto_original_full.lower()).strip()
     texto_original = re.sub(r'<@!?\d+>', '', texto_original_full).strip()
     if texto == "": texto = "hola"; texto_original = "hola"
+    # --- MENCION ESPECIAL PARA NULL_1.0 - SERVER + DM ---
+    if any(p in texto for p in ["null_1.0", "null"]):
+        if not es_dm:
+            null_member = None
+            for m in message.guild.members:
+                if "null_1.0" in m.name.lower() or "null_1.0" in m.display_name.lower():
+                    null_member = m
+                    break
+            if null_member and str(null_member.status) != "offline":
+                return
 
-        # --- TODAS LAS RESPUESTAS ---
+        if any(p in texto for p in ["donde esta", "dónde está", "donde anda", "donde esta null"]):
+            resp = random.choice([
+                f"¡Null_1.0 no está ahora... desde que se fue se le extraña mucho, dejó su luz aquí! 💛🥺",
+                f"¿Null_1.0? Anda offline... pero es una estrella que empezó a brillar desde que no está ⭐💔",
+                f"¡Null_1.0 no está conectado... se fue un ratito pero todos lo notamos! 😢💫",
+                f"Null_1.0 no está ahora, pero dejó su brillo bien marcado aquí ✨",
+                f"¡Null_1.0 no anda por aquí! Y se siente el vacío que dejó 💔",
+                f"Null_1.0 está offline... es de esos que hacen falta cuando no están 🥺"
+            ])
+        elif any(p in texto for p in ["como esta", "cómo está", "como estara", "cómo estará"]):
+            resp = random.choice([
+                f"¡Null_1.0 está bien donde esté! Se le extraña, pero sigue brillando mucho 💛✨",
+                f"¡Null_1.0 está bien! Aunque no esté aquí, se nota su ausencia y su luz 🥺💫",
+                f"¡Null_1.0 está genial! Es de esas personas que brillan más cuando no están 😢",
+                f"Null_1.0 está bien, tranqui... pero acá se le extraña un buen 💛",
+                f"¡Null_1.0 está de 10! Donde esté, seguro la está rompiendo ✨"
+            ])
+        else:
+            resp = random.choice([
+                f"¡Null_1.0 es de los que empieza a brillar más cuando no está! Se le extraña mucho 💛💔",
+                f"¡Se extraña a Null_1.0! Es una estrella que empezó a brillar desde que no está ⭐✨",
+                f"¡Null_1.0 dejó huella! Desde que se fue brilla más en todos lados 💫",
+                f"¡Null_1.0... es raro, pero desde que no está se le quiere más! 💔💛",
+                f"¡Hablar de Null_1.0 duele bonito! Desde que no está se siente más su luz 😢",
+                f"¡Null_1.0 no está, pero se quedó su brillo con nosotros! ✨",
+                f"¡Uff Null_1.0! El que se extraña sin decirlo, pero se siente mucho 💛",
+                f"¡Null_1.0 es leyenda! Desde que no está, todos lo mencionan más ⭐",
+                f"¡Null_1.0 dejó el server pero no los corazones! Se le quiere 💔✨",
+                f"¡Null_1.0 es de los que no se olvidan! Aunque no esté, brilla 🥺💫",
+                f"¡Si hablamos de Null_1.0 hablamos de alguien que se extraña de verdad! 💛😢",
+                f"¡Null_1.0! El ausente que más presente está 💫💔"
+            ])
+        await message.channel.send(resp)
+        return
+       
+       # --- TODAS LAS RESPUESTAS ---
     respuestas_hola = [
         f"¡Hola soy Bob Esponja! ¿Has visto a Gary? Se escondió otra vez 🐌 ¡Hola {message.author.name}!",
         f"¡Hola {message.author.name}! ¡Soy Bob Esponja! ¿Quieres ir a cazar medusas?",
