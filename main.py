@@ -1138,7 +1138,7 @@ async def on_message(message):
             resp = random.choice(respuestas_amigo)
         elif any(p in texto for p in ["como estas", "cómo estás", "como andas"]):
             resp = random.choice(respuestas_como_estas)
-        elif any(p in texto for p in ["xd", "jajaja", "jeje", "jaja", "lol"]):
+        elif any(p in texto for p in ["xd", "jajaja", "jeje", "jaja", "lol","jsjajs","jsjsjs"]):
             resp = random.choice(respuestas_risa)
         elif any(p in texto for p in ["uwu", "owo", "🥺"]):
             resp = random.choice(respuestas_tierno)
@@ -1148,27 +1148,6 @@ async def on_message(message):
             resp = random.choice(respuestas_carita_triste)
         elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
             resp = random.choice(respuestas_hola)
-            # --- PREGUNTAS DE ROL ---
-    elif any(x in texto for x in ["dame la formula", "me das la formula", "formula secreta", "cual es la formula", "dime la formula"]):
-        resp = random.choice(respuestas_formula)
-    elif any(x in texto for x in ["como esta patricio", "cómo está patricio", "donde esta patricio", "que hace patricio"]):
-        resp = random.choice(respuestas_patricio)
-    elif any(x in texto for x in ["como esta calamardo", "cómo está calamardo", "donde esta calamardo"]):
-        resp = random.choice(respuestas_calamardo)
-    elif any(x in texto for x in ["como esta arenita", "donde esta arenita"]):
-        resp = random.choice(respuestas_arenita)
-    elif any(x in texto for x in ["como esta gary", "donde esta gary", "que hace gary"]):
-        resp = random.choice(respuestas_gary_n)
-    elif any(x in texto for x in ["como esta don cangrejo", "donde esta don cangrejo"]):
-        resp = random.choice(respuestas_don_cangrejo_n)
-    elif any(x in texto for x in ["como esta plankton", "donde esta plankton", "que hace plankton"]):
-        resp = random.choice(respuestas_plankton_n)
-    elif any(x in texto for x in ["donde esta la cangreburger", "quiero una cangreburger", "me das una cangreburger", "tienes cangreburgers"]):
-        resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3)
-    elif any(x in texto for x in ["estoy listo", "estoy listo estoy listo"]):
-        resp = random.choice(respuestas_listo)
-    elif any(x in texto for x in ["donde vives", "donde esta fondo de bikini", "donde esta tu casa"]):
-        resp = random.choice(respuestas_pina)
     # --- PERSONAJES NORMALES ---
     elif "patricio" in texto: resp = random.choice(respuestas_patricio)
     elif "calamardo" in texto: resp = random.choice(respuestas_calamardo)
@@ -1202,7 +1181,6 @@ async def on_message(message):
     elif "sireno" in texto: resp = random.choice(respuestas_sireno)
     elif "percebe" in texto: resp = random.choice(respuestas_chico)
     elif "el mal" in texto: resp = random.choice(respuestas_mal)
-    elif "cangreburger" in texto: resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3 + respuestas_mucha_cangre)
     elif "crustaceo" in texto or "cascarudo" in texto: resp = random.choice(respuestas_fondo_cangre)
     elif "?" in texto:
         resp = random.choice([
