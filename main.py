@@ -1105,7 +1105,6 @@ async def on_message(message):
         f"¡Claro que sí {message.author.name}! Jugar contigo siempre es divertido ⭐",
         f"¡Vamos a jugar {message.author.name}! Yo invito las CangreBurgers después 🍔",
     ]
-
     async with message.channel.typing():
         await asyncio.sleep(0.6)
         if any(p in texto for p in ["quien es mejor del server", "quién es el mejor del server", "quien es el mejor", "mejor del server"]):
@@ -1147,45 +1146,8 @@ async def on_message(message):
         elif any(p in texto for p in [":(", ":'(", "triste", "😢", "😭"]):
             resp = random.choice(respuestas_carita_triste)
         elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
-        if any(p in texto for p in ["quien es mejor del server", "quién es el mejor del server", "quien es el mejor", "mejor del server"]):
-            if miembros:
-                mejor = random.choice(miembros)
-                resp = f"¡{mejor.mention} es el mejor! 🏆"
-            else:
-                resp = "¡Tú eres el mejor! 🏆"
-        elif any(p in texto for p in ["me siento mal", "me siento triste", "estoy mal", "me siento horrible", "me siento fatal"]):
-            if any(p in texto for p in ["solo", "sin amigos", "no tengo amigos"]):
-                resp = random.choice(respuestas_solo)
-            elif any(p in texto for p in ["nadie me quiere", "no me quieren", "me odian"]):
-                resp = random.choice(respuestas_no_querido)
-            else:
-                resp = random.choice(respuestas_mal_dia)
-        elif any(p in texto for p in ["vas a cazar medusas", "vas a pescar medusas", "cazar medusas", "pescar medusas", "vamos a cazar medusas"]):
-            resp = random.choice(respuestas_medusas)
-        elif any(p in texto for p in ["quieres jugar", "jugamos", "juegas conmigo", "quieres jugar conmigo", "jugar con patricio", "jugar"]):
-            resp = random.choice(respuestas_jugar)
-        elif any(p in texto for p in ["eres lindo", "te amo bob", "te quiero mucho", "eres tierno", "eres hermoso", "que bonito"]):
-            resp = random.choice(respuestas_bonito)
-        elif any(p in texto for p in ["estoy triste", "toy triste", "esa carita"]):
-            resp = random.choice(respuestas_triste)
-        elif "cangreburger" in texto:
-            resp = random.choice(respuestas_cangre_extra1 + respuestas_cangre_extra2 + respuestas_cangre_extra3 + respuestas_mucha_cangre)
-        elif any(p in texto for p in ["te quiero", "te amo", "tqm"]):
-            resp = random.choice(respuestas_te_quiero)
-        elif any(p in texto for p in ["eres mi amigo", "somos amigos"]):
-            resp = random.choice(respuestas_amigo)
-        elif any(p in texto for p in ["como estas", "cómo estás", "como andas"]):
-            resp = random.choice(respuestas_como_estas)
-        elif any(p in texto for p in ["xd", "jajaja", "jeje", "jaja", "lol","jsjajs","jsjsjs"]):
-            resp = random.choice(respuestas_risa)
-        elif any(p in texto for p in ["uwu", "owo", "🥺"]):
-            resp = random.choice(respuestas_tierno)
-        elif any(p in texto for p in [">:(", "> :v", "enojado", "😠", "😡"]):
-            resp = random.choice(respuestas_enojado)
-        elif any(p in texto for p in [":(", ":'(", "triste", "😢", "😭"]):
-            resp = random.choice(respuestas_carita_triste)
-        elif any(p in texto for p in ["hola", "ola", "hey", "buenas", "holu"]):
             resp = random.choice(respuestas_hola)
+    
         # --- PERSONAJES NORMALES ---
         elif "patricio" in texto:
             resp = random.choice(respuestas_patricio)
